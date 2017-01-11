@@ -64,7 +64,7 @@ class LeaveDetailsComponent extends React.Component {
                                 <tbody>
                                     <tr>
                                         <td> Reason </td>
-                                        <td> huah </td>
+                                        <td> {rec[this.props.id].reason} </td>
                                     </tr>
                                     <tr>
                                         <td> Start Date </td>

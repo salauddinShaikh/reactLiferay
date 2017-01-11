@@ -1,13 +1,38 @@
 import React from 'react';
 
+// new date picker
+var DatePicker = require('react-datepicker');
+var moment = require('moment');
+
 class AddLeavesComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            startDate: moment(),
+            endDate: moment(),
+        };
+    }
+
+    getInitialState() {
+        return {
+            startDate: moment()
+        };
+    }
+
+    handleStartDateChange (context,day){
+        debugger;
+        context.setState({startDate : day})
+    }
+
+    handleEndDateChange (context, day) {
+        debugger;
+        context.setState({endDate : day});
     }
 
     render() {
-        return(
+        debugger;
+        var context = this;
+        return (
             <div className="portlet light bordered">
                 <div className="portlet-title">
                     <div className="caption font-red-sunglo">
@@ -27,7 +52,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar"></i>
                                     </span>
-                                    <input type="date" className="form-control" placeholder="Email Address"></input>
+                                    <DatePicker selected={this.state.startDate} onChange={context.handleStartDateChange.bind(null,context)} />
                                 </div>
                             </div>
                             <div className="form-group">
@@ -36,7 +61,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar-o"></i>
                                     </span>
-                                    <input type="date" className="form-control" placeholder="Email Address"></input>
+                                    <DatePicker selected={this.state.endDate} onChange={context.handleEndDateChange.bind(null,context)} />
                                 </div>
                             </div>
                             <div className="form-group">
@@ -58,7 +83,7 @@ class AddLeavesComponent extends React.Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label>No. of Days</label>
+                                <label>No.of Days</label>
                                 <div className="input-group">
                                     <span className="input-group-addon">
                                         <i className="fa fa-list-ul"></i>
@@ -77,22 +102,22 @@ class AddLeavesComponent extends React.Component {
         );
     }
 
-    submitButtonView(editview){
-        if(editview) {
-            return(
+    submitButtonView(editview) {
+        if (editview) {
+            return (
                 <button type="button" onClick={ this.props.onSubmitClick } className="btn green pull-right" disabled >Submit</button>
             );
         }
         else {
-            return(
+            return (
                 <button type="button" onClick={ this.props.onSubmitClick } className="btn green pull-right" >Submit</button>
             );
         }
     }
 
     actionsView(editview) {
-        if(editview) {
-            return(
+        if (editview) {
+            return (
                 <div className="btn-group">
                     <a className="btn btn-sm green dropdown-toggle" data-toggle="dropdown"><i className="fa fa-trash-o"></i> Delete Request
                     </a>
@@ -100,7 +125,7 @@ class AddLeavesComponent extends React.Component {
             );
         }
         else {
-            return(
+            return (
                 <div className="btn-group">
                     <a className="btn btn-sm green dropdown-toggle" data-toggle="dropdown"> Actions
                         <i className="fa fa-angle-down"></i>
