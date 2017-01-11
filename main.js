@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ComponentMain from './components/componentMain';
+
 // import { Provider } from 'react-redux';
 // import { Router, Route, browserHistory } from 'react-router';
 
@@ -14,8 +16,7 @@ import ReactDOM from 'react-dom';
 //   document.getElementById('root')
 // );
 
-
 ReactDOM.render(
-  <h1>Hello from REACT3</h1>,
+  <ComponentMain></ComponentMain>,
   document.getElementById('root')
 );
