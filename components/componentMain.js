@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 import LeavesListComponent from './leavesListComponent';
 import AddLeavesComponent from './addLeavesComponent';
 import LeaveDetailsComponent from './leaveDetailsComponent';
-import 'react-datepicker/dist/react-datepicker.css';
+
+import '../style.css'
 class ComponentMain extends React.Component {
   constructor(props) {
     super(props);

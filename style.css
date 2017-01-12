@@ -1,0 +1,17 @@
+@media (min-width: 992px) {
+    button.fullWidth{
+        width: 100%;
+    }
+    label.vAlign {
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 992px) {
+    button.fullWidth{
+        width: 100%;
+        margin-top: 7px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}

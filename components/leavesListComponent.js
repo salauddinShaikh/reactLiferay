@@ -54,6 +54,41 @@ class LeavesListComponent extends React.Component {
                 <div className="portlet-body">
                     <div className="table-scrollable">
                         <table className="table table-hover table-light">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Leaves Taken</strong></td>
+                                    <td><strong>5</strong></td>
+                                    <td><strong>Leaves Balance</strong></td>
+                                    <td><strong>6</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className="form-horizontal">
+                        <div className="row">
+                            <div className="col-lg-5 col-md-5 col-xs-5">
+                                <label className="col-md-2 vAlign">From</label>
+                                <div className="col-md-10">
+                                    <input type="date" className="form-control"></input>
+                                </div>
+                            </div>
+                            <div className="col-lg-5 col-md-5 col-xs-5">
+                                <label className="col-md-2 vAlign">To</label>
+                                <div className="col-md-10">
+                                    <input type="date" className="form-control"></input>
+                                </div>
+                            </div>
+                            <div className="col-lg-2 col-md-2 col-xs-2">
+                                <div className="">
+                                    <button className="btn fullWidth"> Filter </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="table-scrollable">
+                        <table className="table table-hover table-light">
                             <thead>
                                 <tr>
                                     <th> # </th>
