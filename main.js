@@ -1,11 +1,8 @@
-//import React from 'react';
-//import ReactDOM from 'react-dom';
-import ProfileContainer from './components/profileContainer';
-// import { Provider } from 'react-redux';
-// import { Router, Route, browserHistory } from 'react-router';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import DashboardContainer from './components/dashboardContainer';
 
-// const store = configureStore();
 ReactDOM.render(
-  <ProfileContainer />,
+  <DashboardContainer />,
   document.getElementById('root')
 );
