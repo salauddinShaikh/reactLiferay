@@ -2,9 +2,35 @@ import React from 'react';
 class EmployeeAttendanceList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      fromDate: '',
+      toDate: '',
+      projectName: '',
+      employeeName: '',
+    };
+    this.handleFromDateChange = this.handleFromDateChange.bind(this);
+    this.handleToDateChange = this.handleToDateChange.bind(this);
+    this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
+    this.handleEmployeeNameChange = this.handleEmployeeNameChange.bind(this);
+    this.onSearchClick = this.onSearchClick.bind(this);
   }
 
+onSearchClick(){
+  console.log('search',this.state);
+
+}
+  handleFromDateChange(event) {
+    this.setState({ fromDate: event.target.value });
+  }
+  handleToDateChange(event) {
+    this.setState({ toDate: event.target.value });
+  }
+  handleProjectNameChange(event) {
+    this.setState({ projectName: event.target.value });
+  }
+  handleEmployeeNameChange(event) {
+    this.setState({ employeeName: event.target.value });
+  }
   render() {
     var rec = [
       {
@@ -51,13 +77,13 @@ class EmployeeAttendanceList extends React.Component {
             <div className="form-group col-md-5">
               <label className="control-label col-md-5"><b>From</b></label>
               <div className="col-md-7">
-                <input type ="date" className="form-control form-control-inline" />
+                <input type ="date" className="form-control form-control-inline" value={this.state.fromDate} onChange={this.handleFromDateChange} />
               </div>
             </div>
             <div className="form-group col-md-5">
               <label className="control-label col-md-5"><b>To</b></label>
               <div className="col-md-7">
-                <input type ="date" className="form-control form-control-inline" />
+                <input type ="date" className="form-control form-control-inline"  value={this.state.toDate} onChange={this.handleToDateChange} />
               </div>
             </div>
 
@@ -66,7 +92,7 @@ class EmployeeAttendanceList extends React.Component {
             <div className="form-group col-md-5">
               <label className="control-label col-md-5"><b>Project Name</b></label>
               <div className="col-md-7">
-                <select className="bs-select form-control">
+                <select className="bs-select form-control" value={this.state.projectName} onChange={this.handleProjectNameChange}>
                   <option>Select</option>
                   <option>Project1</option>
                   <option>Project2</option>
@@ -77,7 +103,7 @@ class EmployeeAttendanceList extends React.Component {
             <div className="form-group col-md-5">
               <label className="control-label col-md-5"><b>Employee Name</b></label>
               <div className="col-md-7">
-                <select className="bs-select form-control">
+                <select className="bs-select form-control" value={this.state.employeeName} onChange={this.handleEmployeeNameChange}>
                   <option>Select</option>
                   <option>Employee1</option>
                   <option>Employee2</option>
@@ -87,7 +113,7 @@ class EmployeeAttendanceList extends React.Component {
             </div>
             <div className="form-group col-md-2">
               <div className="col-md-12">
-                <button type="button" className=" form-control btn default">Search</button>
+                <button type="button" className=" form-control btn default" onClick={this.onSearchClick}>Search</button>
               </div>
             </div>
           </div>
