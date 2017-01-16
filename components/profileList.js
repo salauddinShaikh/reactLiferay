@@ -7,30 +7,6 @@ class ProfileListComponent extends React.Component {
     }
 
     render() {
-        var rec =  [
-                {
-                    empId : '1001',
-                    empName : 'Amol',
-                    department : 'EBS',
-                    contactNo : '987456235'
-                },{
-                    empId : '1003',
-                    empName : 'Aman',
-                    department : 'ECS',
-                    contactNo : '7574561455'
-                },{
-                     empId : '1004',
-                    empName : 'Sachin',
-                    department : 'EBS',
-                    contactNo : '866456235'
-                },{
-                    empId : '1005',
-                    empName : 'Mukul',
-                    department : 'ECS',
-                    contactNo : '8655294515'
-                }
-            ];
-        var context = this;
         return(
                 <div className="portlet light">
                     <div className="portlet-title">
@@ -51,7 +27,8 @@ class ProfileListComponent extends React.Component {
                                     <tr>
                                         <th> # </th>
                                         <th> Emp ID </th>
-                                        <th> Name </th>
+                                        <th> First Name </th>
+                                        <th> Last Name </th>
                                         <th> Department </th>
                                         <th> Contact No </th>
                                         <th> Action </th>
@@ -59,20 +36,24 @@ class ProfileListComponent extends React.Component {
                                 </thead>
                                 <tbody>
                                 {
-                                    rec.map((row, index) => {
+                                    this.props.profileList.map((row, index) => {
                                         return(
                                             <tr key={index}>
                                                 <td> {index +1} </td>
-                                                <td> {row.empId} </td>
-                                                <td><a onClick={ this.props.changeView.bind(null,'addEdit') }> {row.empName}</a> </td>
-                                                <td> {row.department} </td>
-                                                <td> {row.contactNo} </td>
+                                                <td> {row.ID} </td>
+                                                <td> {row.FName} </td>
+                                                <td> {row.LName} </td>
+                                                <td> {row.Department} </td>
+                                                <td> {row.ContactNo} </td>
                                                 <td>
                                                     <button className="btn btn-outline green " title="Edit" onClick={ this.props.changeView.bind(null,'addEdit') }>
                                                         <i className="fa fa-edit"></i>
                                                     </button>
                                                     <button className="btn btn-outline green "  title="View" onClick={ this.props.changeView.bind(null,'viewOnly') }>
                                                         <i className="fa fa-search"></i>
+                                                    </button>
+                                                    <button className="btn btn-outline green "  title="Delete" >
+                                                        <i className="fa fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
