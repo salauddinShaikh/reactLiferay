@@ -4,13 +4,11 @@ class AttendanceList extends React.Component {
     super(props);
     this.state = {
       fromDate: '',
-      toDate: '',
-      project: ''
+      toDate: ''
     };
     this.onSearchClick = this.onSearchClick.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
-    this.handleToDateChange = this.handleToDateChange.bind(this);
-    this.handleProjectChange = this.handleProjectChange.bind(this);
+    this.handleToDateChange = this.handleToDateChange.bind(this);  
   }
 
 
@@ -19,9 +17,6 @@ class AttendanceList extends React.Component {
   }
   handleToDateChange(event) {
     this.setState({ toDate: event.target.value });
-  }
-  handleProjectChange(event) {
-    this.setState({ project: event.target.value });
   }
 
   onSearchClick(event) {
@@ -67,27 +62,16 @@ class AttendanceList extends React.Component {
         </div>
         <div className="portlet-body">
           <div className="row">
-            <div className="form-group col-md-3">
+            <div className="form-group col-md-4">
               <label className="control-label col-md-3"><b>From</b></label>
               <div className="col-md-9">
                 <input type ="date" className="form-control form-control-inline"  value={this.state.fromDate} onChange={this.handleFromDateChange}  />
               </div>
             </div>
-            <div className="form-group col-md-3">
+            <div className="form-group col-md-4">
               <label className="control-label col-md-3"><b>To</b></label>
               <div className="col-md-9">
                 <input type ="date" className="form-control form-control-inline" value={this.state.toDate} onChange={this.handleToDateChange} />
-              </div>
-            </div>
-            <div className="form-group col-md-4">
-              <label className="control-label col-md-5"><b>Project Name</b></label>
-              <div className="col-md-7">
-                <select className="bs-select form-control" value={this.state.project} onChange={this.handleProjectChange}>
-                  <option>Select</option>
-                  <option>Project1</option>
-                  <option>Project2</option>
-                  <option>Project3</option>
-                </select>
               </div>
             </div>
             <div className="form-group col-md-2">
