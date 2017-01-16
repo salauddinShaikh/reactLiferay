@@ -6,12 +6,12 @@ class Attendance extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: '04/01/2017',
-            inTime: '10.30 am',
-            outTime: '7.30 pm',
-            totalTime: '9 hrs',
-            workingTime: '8 hrs',
-            freeTime: '8 hrs',
+            Date: '04/01/2017',
+            InTime: '10.30 am',
+            OutTime: '7.30 pm',
+            TotalTime: '9 hrs',
+            WorkingTime: '8 hrs',
+            FreeTime: '8 hrs',
             optionsPieSimple: {}
         };
     }
@@ -82,37 +82,37 @@ class Attendance extends React.Component {
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Date: </b> </label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.date} </label>
+                                    <label className="control-label">{this.state.Date} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>In Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.inTime} </label>
+                                    <label className="control-label">{this.state.InTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Out Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.outTime} </label>
+                                    <label className="control-label">{this.state.OutTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Total Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.totalTime} </label>
+                                    <label className="control-label">{this.state.TotalTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Working Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.workingTime} </label>
+                                    <label className="control-label">{this.state.WorkingTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Free Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.freeTime}</label>
+                                    <label className="control-label">{this.state.FreeTime}</label>
                                 </div>
                             </div>
                         </div>
