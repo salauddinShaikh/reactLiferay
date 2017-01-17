@@ -13,7 +13,7 @@ class EmployeeAttendance extends React.Component {
                 OutTime: '7.30 pm',
                 TotalTime: '9 hrs',
                 WorkingTime: '8 hrs',
-                FreeTime: '8 hrs',
+                BreakTime: '8 hrs',
             },
             optionsPieSimple: {}
         };
@@ -54,7 +54,7 @@ class EmployeeAttendance extends React.Component {
                         name: 'Working',
                         y: 8,
                     }, {
-                            name: 'Free',
+                            name: 'Break',
                             y: 2,
                             sliced: true,
                             selected: true
@@ -119,9 +119,9 @@ class EmployeeAttendance extends React.Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-md-4 control-label"><b>Free Time: </b></label>
+                                <label className="col-md-4 control-label"><b>Break Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.FreeTime}</label>
+                                    <label className="control-label">{this.state.employee.BreakTime}</label>
                                 </div>
                             </div>
                         </div>

@@ -4,5 +4,5 @@ import EmployeeAttendanceMainView from './components/employeeAttendanceMain.view
 
 ReactDOM.render(
   <EmployeeAttendanceMainView />,
-  document.getElementById('root')
+  document.getElementById('employeeAttendance')
 );
