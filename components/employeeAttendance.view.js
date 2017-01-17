@@ -70,7 +70,7 @@ class EmployeeAttendance extends React.Component {
             <div className="portlet light">
                 <div className="portlet-title">
                     <div className="caption">
-                        <span className="caption-subject font-dark sbold uppercase">Attendance</span>
+                        <span className="caption-subject font-red sbold uppercase">Attendance</span>
                     </div>
                 </div>
                 <div className="portlet-body form row">
