@@ -4,5 +4,5 @@ import AttendanceMainView from './components/attendanceMain.view';
 
 ReactDOM.render(
     <AttendanceMainView />,
-  document.getElementById('root')
+  document.getElementById('myAttendance')
 );
