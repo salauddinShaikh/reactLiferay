@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+//import React, {Component} from 'react';
 import Chart from './chart';
 class DashboardView extends React.Component {
     constructor(props) {
@@ -32,7 +32,8 @@ class DashboardView extends React.Component {
                             style: {
                                 color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                             }
-                        }
+                        },
+                         showInLegend: true
                     }
                 },
                 series: [{
@@ -42,7 +43,7 @@ class DashboardView extends React.Component {
                         name: 'Working',
                         y: 8,
                     }, {
-                            name: 'Free',
+                            name: 'Break',
                             y: 2,
                             sliced: true,
                             selected: true
@@ -57,10 +58,17 @@ class DashboardView extends React.Component {
                     <div className="portlet-title">
                         <div className="caption">
                             <i className="icon-settings font-red"></i>
-                            <span className="caption-subject font-red sbold uppercase">Total time spend in office </span>
+                            <span className="caption-subject font-red sbold uppercase">Time spend in office </span>
                         </div>
                         <div className="actions">
-                          
+                            <div className="btn-group btn-group-devided" data-toggle="buttons">
+                                <label className="btn btn-circle btn-transparent grey-salsa ">
+                                    <input type="radio" name="options" className="toggle" id="option1"/>Today</label>
+                                <label className="btn btn-circle btn-transparent grey-salsa">
+                                    <input type="radio" name="options" className="toggle" id="option2"/>This Week</label>
+                                <label className="btn btn-circle btn-transparent grey-salsa">
+                                    <input type="radio" name="options" className="toggle" id="option2"/>This Month</label>
+                            </div>
                         </div>
                     </div>
                     <div className="portlet-body">

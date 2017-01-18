@@ -1,6 +1,8 @@
-import React from 'react';
+//import React from 'react';
 import DashboardView from './dashboardView';
 import InTimeStatisticsView from './timeInStatisticsView';
+import TimeSheetView from './timeSheetView';
+import TeamTimeSheetView from './teamTimeSheet';
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -16,12 +18,22 @@ class DashboardContainer extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-6">   
-           <DashboardView /> 
+      <div>
+        <div className="row">
+          <div className="col-md-6">   
+             <DashboardView /> 
+          </div>
+          <div className="col-md-6">   
+            <TimeSheetView /> 
+          </div>
         </div>
-        <div className="col-md-6">   
-           <InTimeStatisticsView /> 
+        <div className="row">
+          <div className="col-md-6">   
+             <InTimeStatisticsView /> 
+          </div>
+          <div className="col-md-6">   
+             <TeamTimeSheetView /> 
+          </div>
         </div>
       </div>
     );
