@@ -7,11 +7,13 @@ class Attendance extends React.Component {
         super(props);
         this.state = {
             Date: '04/01/2017',
-            InTime: '10.30 am',
+            InTime: '9.30 am',
             OutTime: '7.30 pm',
             TotalTime: '9 hrs',
             WorkingTime: '8 hrs',
             BreakTime: '2 hrs',
+            Status: 'Present',
+            times: ['9.30 am', '1.00 pm', '2.00 pm', '5.00 pm', '5.30 pm', '7.30 pm'],
             optionsPieSimple: {}
         };
     }
@@ -63,12 +65,46 @@ class Attendance extends React.Component {
 
     render() {
         var context = this;
+        var style = {};
         return (
             <div className="portlet light">
                 <div className="portlet-title">
                     <div className="caption">
                         <span className="caption-subject font-dark sbold uppercase">Attendance</span>
                     </div>
+                </div>
+                <div>
+                    <span className="label label-sm" style={{ backgroundColor: 'darkseagreen' }}>In Time</span>
+                    <span className="label label-sm" style={{ backgroundColor: 'indianred' }}>Out Time</span>
+                </div>
+                <div className="table-scrollable">
+                    <table className="table table-light">
+                        <tbody>
+                            <tr>
+                                {
+                                    this.state.times.map((row, index) => {
+                                        if ((index + 1) % 2 === 0) {
+                                            style = {
+                                                backgroundColor: 'indianred',
+                                                fontWeight: 'bold',
+                                                color: 'black'
+                                            }
+
+                                        } else {
+                                            style = {
+                                                backgroundColor: 'darkseagreen',
+                                                fontWeight: 'bold',
+                                                color: 'white'
+                                            }
+                                        }
+                                        return (
+                                            <td style={style} key={index}>{row}</td>
+                                        );
+                                    })
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div className="portlet-body form row">
                     <form className="form-horizontal col-md-6" >
@@ -83,6 +119,12 @@ class Attendance extends React.Component {
                                 <label className="col-md-4 control-label"><b>Date: </b> </label>
                                 <div className="col-md-8">
                                     <label className="control-label">{this.state.Date} </label>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-md-4 control-label"><b>Status: </b> </label>
+                                <div className="col-md-8">
+                                    <label className="control-label">{this.state.Status} </label>
                                 </div>
                             </div>
                             <div className="form-group">

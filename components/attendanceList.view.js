@@ -30,25 +30,29 @@ class AttendanceList extends React.Component {
         Date: '29/12/2016',
         InTime: '9.00 am',
         OutTime: '7.00 pm',
-        TotalTime: '10 hrs'
+        TotalTime: '10 hrs',
+        Status:'Present'
       }, {
         ID: 2,
         Date: '02/01/2017',
         InTime: '9.30 am',
         OutTime: '7.30 pm',
-        TotalTime: '10 hrs'
+        TotalTime: '10 hrs',
+        Status:'Present'
       }, {
         ID: 3,
         Date: '03/01/2017',
-        InTime: '10.00 am',
-        OutTime: '7.00 pm',
-        TotalTime: '9 hrs'
+        InTime: '',
+        OutTime: '',
+        TotalTime: '',
+        Status:'Working from Home'
       }, {
         ID: 4,
         Date: '04/01/2017',
-        InTime: '10.30 am',
-        OutTime: '7.30 pm',
-        TotalTime: '9 hrs'
+        InTime: '',
+        OutTime: '',
+        TotalTime: '',
+        Status:'Absent'
       },
     ];
     var context = this;
@@ -86,6 +90,7 @@ class AttendanceList extends React.Component {
                 <tr>
                   <th> # </th>
                   <th> Date </th>
+                  <th> Status </th>
                   <th> In Time </th>
                   <th> Out Time </th>
                   <th> Total Time </th>
@@ -98,6 +103,7 @@ class AttendanceList extends React.Component {
                       <tr key={index}>
                         <td> {index + 1} </td>
                         <td><a onClick={ this.props.onActionClick.bind(null, row.ID) }> {row.Date}</a> </td>
+                        <td> {row.Status} </td>
                         <td> {row.InTime} </td>
                         <td> {row.OutTime} </td>
                         <td>
