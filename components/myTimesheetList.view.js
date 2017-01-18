@@ -67,15 +67,15 @@ class MyTimesheetList extends React.Component {
         </div>
         <div className="portlet-body">
           <div className="row">
-            <div className="form-group col-md-5">
-              <label className="control-label col-md-5"><b>From</b></label>
-              <div className="col-md-7">
+            <div className="form-group col-md-4">
+              <label className="control-label col-md-4"><b>From</b></label>
+              <div className="col-md-8">
                 <input type ="date" className="form-control form-control-inline" value={this.state.fromDate} onChange={this.handleFromDateChange} />
               </div>
             </div>
-            <div className="form-group col-md-5">
-              <label className="control-label col-md-5"><b>To</b></label>
-              <div className="col-md-7">
+            <div className="form-group col-md-4">
+              <label className="control-label col-md-4"><b>To</b></label>
+              <div className="col-md-8">
                 <input type ="date" className="form-control form-control-inline"  value={this.state.toDate} onChange={this.handleToDateChange} />
               </div>
             </div>
