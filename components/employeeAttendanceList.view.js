@@ -15,10 +15,10 @@ class EmployeeAttendanceList extends React.Component {
     this.onSearchClick = this.onSearchClick.bind(this);
   }
 
-onSearchClick(){
-  console.log('search',this.state);
+  onSearchClick() {
+    console.log('search', this.state);
 
-}
+  }
   handleFromDateChange(event) {
     this.setState({ fromDate: event.target.value });
   }
@@ -39,28 +39,32 @@ onSearchClick(){
         Date: '29/12/2016',
         InTime: '9.00 am',
         OutTime: '7.00 pm',
-        TotalTime: '10 hrs'
+        TotalTime: '10 hrs',
+        Status: 'Present',
       }, {
         ID: 2,
         EmployeeName: 'employee2',
         Date: '02/01/2017',
         InTime: '9.30 am',
         OutTime: '7.30 pm',
-        TotalTime: '10 hrs'
+        TotalTime: '10 hrs',
+        Status: 'Present',
       }, {
         ID: 3,
         EmployeeName: 'employee3',
         Date: '03/01/2017',
-        InTime: '10.00 am',
-        OutTime: '7.00 pm',
-        TotalTime: '9 hrs'
+        InTime: '',
+        OutTime: '',
+        TotalTime: '',
+        Status: 'Working from Home',
       }, {
         ID: 4,
         EmployeeName: 'employee4',
         Date: '04/01/2017',
-        InTime: '10.30 am',
-        OutTime: '7.30 pm',
-        TotalTime: '9 hrs'
+        InTime: '',
+        OutTime: '',
+        TotalTime: '',
+        Status: 'Absent'
       },
     ];
     var context = this;
@@ -124,6 +128,7 @@ onSearchClick(){
                   <th> # </th>
                   <th> Employee Name </th>
                   <th> Date </th>
+                  <th> Status </th>
                   <th> In Time </th>
                   <th> Out Time </th>
                   <th> Total Time </th>
@@ -137,6 +142,7 @@ onSearchClick(){
                         <td> {index + 1} </td>
                         <td> <a onClick={ this.props.onActionClick.bind(null, row.ID) }> {row.EmployeeName}</a> </td>
                         <td> {row.Date} </td>
+                        <td> {row.Status} </td>
                         <td> {row.InTime} </td>
                         <td> {row.OutTime} </td>
                         <td>
