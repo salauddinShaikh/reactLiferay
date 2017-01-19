@@ -19,6 +19,12 @@ class ComponentMain extends React.Component {
     this.onSubmitClick = this.onSubmitClick.bind(this);
     this.onRecordClick = this.onRecordClick.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
+  }
+
+  onDeleteClick(id) {
+    alert('delete ' + id + '?');
+    this.onDeleteAPI(id);
   }
 
   onAddClick() {
@@ -29,17 +35,35 @@ class ComponentMain extends React.Component {
     this.setState({ showList: true, showDetails: false });
   }
 
-  onSubmitClick() {
+  onSubmitClick(id) {
+    console.log('got something', id);
     this.setState({ showList: true, showDetails: false });
   }
 
   onRecordClick(ID) {
     debugger;
-    this.setState({ showDetails: true, showList: false, showEditView: false, leaveId: ID });
+    this.setState({ showDetails: true, showList: false, showEditView: false });
+    this.setState({ leaveId: ID });
   }
 
   onEditClick(ID) {
     this.setState({ showDetails: false, showList: false, showEditView: true, leaveId: ID })
+  }
+
+  /**
+   * onDelete API Call
+   */
+  onDeleteAPI(id) {
+    // Liferay.Service(
+    //   '/Test007-portlet.album/DeleteAlbumAPI',
+    //   {
+    //     albumId: id
+    //   },
+    //   function (obj) {
+    //     console.log('delete : ', obj);
+    //     this.setState({ showList: true, showDetails: false });
+    //   }
+    // );
   }
 
   render() {
@@ -52,7 +76,7 @@ class ComponentMain extends React.Component {
 
     else if (this.state.showList === false && this.state.showDetails === false && this.state.showEditView === false) {
       renderView = (
-        <AddLeavesComponent onBackClick={this.onBackClick} ID={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
+        <AddLeavesComponent onDeleteClick={this.onDeleteClick} onBackClick={this.onBackClick} ID={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
       );
     }
 
@@ -64,7 +88,7 @@ class ComponentMain extends React.Component {
 
     else if (this.state.showEditView === true) {
       renderView = (
-        <AddLeavesComponent onBackClick={this.onBackClick} ID={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
+        <AddLeavesComponent onDeleteClick={this.onDeleteClick} onBackClick={this.onBackClick} ID={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
       );
     }
 

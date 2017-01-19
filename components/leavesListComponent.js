@@ -15,35 +15,82 @@ class LeavesListComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterData : {
-                StartDate : '',
-                EndDate : ''
+            filterData: {
+                StartDate: '',
+                EndDate: ''
             },
-            startDate : null,
-            endDate : null
+            startDate: moment(),
+            endDate: moment(),
+            Leaves: [],
+            LeaveCount: {},
         };
         this.onFilterClick = this.onFilterClick.bind(this)
         this.handleEndDtChange = this.handleEndDtChange.bind(this);
         this.handleStartDtChange = this.handleStartDtChange.bind(this);
     }
 
+    componentDidMount() {
+        this.getLeavesAPI();
+        this.getLeaveCountAPI();
+    }
+
+    /**
+     * GetFilteredLeaves API Call
+     */
+    getFilteredLeavesAPI() {
+        // Liferay.Service(
+        //     'URL/Of/API/CallFor/GetFilteredLeaves',
+        //     function (obj) {
+        //         console.log('get-albums : ', obj);
+        //         rec.setState({ Leaves: obj });
+        //     }
+        // );
+    }
+
+    /**
+     * GetLeaveCount API Call
+     */
+    getLeaveCountAPI() {
+        // Liferay.Service(
+        //     'URL/Of/API/CallFor/GetLeaveCount',
+        //     function (obj) {
+        //         console.log('get-albums : ', obj);
+        //         rec.setState({ LeaveCount: obj });
+        //     }
+        // );
+    }
+
+    /**
+     * GetLeaves API Call
+     */
+    getLeavesAPI() {
+        // Liferay.Service(
+        //     'URL/Of/API/CallFor/GetLeaves',
+        //     function (obj) {
+        //         console.log('get-albums : ', obj);
+        //         rec.setState({ Leaves: obj });
+        //     }
+        // );
+    }
+
     onFilterClick() {
         var context = this;
-        alert('Filter is set between :'+ this.state.filterData.StartDate + ' and ' + this.state.filterData.EndDate);
+        this.getFilteredLeavesAPI();
+        alert('Filter is set between :' + this.state.filterData.StartDate + ' and ' + this.state.filterData.EndDate);
     }
 
     handleStartDtChange(context, day) {
         var filterData = this.state.filterData;
         filterData.StartDate = day.format('DD-MM-YYYY');
         this.setState({ filterData: filterData });
-        this.setState({ startDate : day });
+        this.setState({ startDate: day });
     }
 
     handleEndDtChange(context, day) {
         var filterData = this.state.filterData;
         filterData.EndDate = day.format('DD-MM-YYYY');
         this.setState({ filterData: filterData });
-        this.setState({ endDate : day });
+        this.setState({ endDate: day });
     }
 
     render() {
@@ -54,28 +101,28 @@ class LeavesListComponent extends React.Component {
                 EndDate: '01/01/2017',
                 Reason: 'Not well',
                 status: 'Approved',
-                NoOfDays : 4
+                NoOfDays: 4
             }, {
                 ID: 2,
                 StartDate: '29/10/2016',
                 EndDate: '01/11/2016',
                 Reason: 'Not well',
                 status: 'Approved',
-                NoOfDays : 4
+                NoOfDays: 4
             }, {
                 ID: 3,
                 StartDate: '12/09/2016',
                 EndDate: '12/09/2017',
                 Reason: 'Going home',
                 status: 'Partially Approved',
-                NoOfDays : 1
+                NoOfDays: 1
             }, {
                 ID: 4,
                 StartDate: '12/01/2017',
                 EndDate: '13/01/2017',
                 Reason: 'Going home',
                 status: 'Pending',
-                NoOfDays : 2
+                NoOfDays: 2
             }
         ];
         var context = this;
@@ -113,17 +160,17 @@ class LeavesListComponent extends React.Component {
                             <div className="col-lg-5 col-md-5 col-xs-5">
                                 <label className="col-md-2 vAlign">From</label>
                                 <div className="col-md-10">
-                                    <DatePicker  selected={this.state.startDate} onChange={context.handleStartDtChange.bind(null,context)} className="form-control" showMonthDropdown />
+                                    <DatePicker  selected={this.state.startDate} onChange={context.handleStartDtChange.bind(null, context) } className="form-control" showMonthDropdown />
                                 </div>
                             </div>
                             <div className="col-lg-5 col-md-5 col-xs-5">
                                 <label className="col-md-2 vAlign">To</label>
                                 <div className="col-md-10">
-                                    <DatePicker  selected={this.state.endDate} onChange={context.handleEndDtChange.bind(null,context)} className="form-control" showMonthDropdown />
+                                    <DatePicker  selected={this.state.endDate} onChange={context.handleEndDtChange.bind(null, context) } className="form-control" showMonthDropdown />
                                 </div>
                             </div>
                             <div className="col-lg-2 col-md-2 col-xs-2">
-                                 <label className="col-md-2"></label>
+                                <label className="col-md-2"></label>
                                 <div className="col-md-10 ">
                                     <button className="btn " onClick={this.onFilterClick}> Filter </button>
                                 </div>
@@ -140,7 +187,7 @@ class LeavesListComponent extends React.Component {
                                     <th> End Date </th>
                                     <th> Reason </th>
                                     <th> Status </th>
-                                    <th> No. of Days </th>
+                                    <th> No.of Days </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -149,7 +196,7 @@ class LeavesListComponent extends React.Component {
                                         return (
                                             <tr key={row.ID}>
                                                 <td> {index + 1} </td>
-                                                <td> <a onClick={ this.props.onRecordClick.bind(null,row.ID) } > {row.StartDate}</a> </td>
+                                                <td> <a onClick={ this.props.onRecordClick.bind(null, row.ID) } > {row.StartDate}</a> </td>
                                                 <td> {row.EndDate} </td>
                                                 <td> {row.Reason} </td>
                                                 <td>

@@ -25,7 +25,8 @@ class AddLeavesComponent extends React.Component {
                 NoOfDays: 0
             },
             startDate: null,
-            endDate: null
+            endDate: null,
+            MstrLeaveType: []
         };
         this.handleStartDtChange = this.handleStartDtChange.bind(this);
         this.handleEndDtChange = this.handleEndDtChange.bind(this);
@@ -34,18 +35,78 @@ class AddLeavesComponent extends React.Component {
         this.handleNumDaysChange = this.handleNumDaysChange.bind(this);
     }
 
-    // getInitialState() {
-    //     return {
-    //         startDate: moment(),
-    //         endDate: moment()
-    //     };
-    // }
+    componentDidMount() {
+        this.getLeaveDetailsAPI();
+        this.getLeaveTypeAPI();
+    }
+
+    /**
+     * getLeaveType API Call
+     */
+    getLeaveTypeAPI() {
+        // Liferay.Service(
+        //     'URL/Of/API/CallFor/getLeaveTypeAPI',
+        //     function (obj) {
+        //         console.log('get-albums : ', obj);
+        //         rec.setState({ MstrLeaveType: obj });
+        //     }
+        // );
+    }
+
+    /**
+    * GetLeaveCount API Call
+    */
+    getLeaveDetailsAPI() {
+        // Liferay.Service(
+        //     'URL/Of/API/CallFor/GetLeaveDetailsAPI',
+        //     function (obj) {
+        //         console.log('get-albums : ', obj);
+        //         rec.setState({ formData: obj });
+        //     }
+        // );
+    }
+
+    /**
+     * updateLeave API Call
+     */
+    updateLeaveAPI() {
+        // Liferay.Service(
+        //     'URL/Of/API/CallFor/UpdateLeave',
+        //     {
+        //         albumId: albumForm.artistId,
+        //         artistId: albumForm.artistId,
+        //         albumName: albumForm.albumName,
+        //         releaseYear: albumForm.releaseYear
+        //     },
+        //     function (obj) {
+        //         console.log('update : ', obj);
+        //     }
+        // );
+    }
+
+    /**
+     * addLeave API Call
+     */
+    addLeaveAPI() {
+        // Liferay.Service(
+        //     'URL/Of/API/CallFor/AddLeave',
+        //     {
+        //         albumId: albumForm.artistId,
+        //         artistId: albumForm.artistId,
+        //         albumName: albumForm.albumName,
+        //         releaseYear: albumForm.releaseYear
+        //     },
+        //     function (obj) {
+        //         console.log('update : ', obj);
+        //     }
+        // );
+    }
 
     handleStartDtChange(context, day) {
         var form = this.state.formData;
         form.StartDate = day.format('DD-MM-YYYY');
         this.setState({ formData: form });
-        this.setState({ startDate : day });
+        this.setState({ startDate: day });
         console.log('StartDate : ', this.state.formData.StartDate);
     }
 
@@ -53,7 +114,7 @@ class AddLeavesComponent extends React.Component {
         var form = this.state.formData;
         form.EndDate = day.format('DD-MM-YYYY');
         this.setState({ formData: form });
-        this.setState({ endDate : day });
+        this.setState({ endDate: day });
         console.log('EndDate : ', this.state.formData.EndDate);
     }
 
@@ -187,12 +248,12 @@ class AddLeavesComponent extends React.Component {
     submitButtonView(editview) {
         if (editview) {
             return (
-                <button type="button" onClick={ this.props.onSubmitClick } className="btn green pull-right" disabled >Submit</button>
+                <button type="button" onClick={ this.props.onSubmitClick.bind(null, { name: 'if condition' }) } className="btn green pull-right" disabled >Submit</button>
             );
         }
         else {
             return (
-                <button type="button" onClick={ this.props.onSubmitClick } className="btn green pull-right" >Submit</button>
+                <button type="button" onClick={ this.props.onSubmitClick.bind(null, { id: 'else condition' }) } className="btn green pull-right" >Submit</button>
             );
         }
     }
@@ -201,7 +262,7 @@ class AddLeavesComponent extends React.Component {
         if (editview) {
             return (
                 <div className="btn-group">
-                    <a className="btn btn-sm green dropdown-toggle" data-toggle="dropdown"><i className="fa fa-trash-o"></i> Delete Request
+                    <a onClick={ this.props.onDeleteClick.bind(null, this.props.leaveId) } className="btn btn-sm green dropdown-toggle" data-toggle="dropdown"><i className="fa fa-trash-o"></i> Delete Request
                     </a>
                 </div>
             );
