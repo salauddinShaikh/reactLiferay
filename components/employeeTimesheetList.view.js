@@ -32,6 +32,26 @@ class EmployeeTimesheetList extends React.Component {
   }
   render() {
     var statusClass = ''
+    var project = [{
+      ID: 1,
+      Name: 'Project1'
+    }, {
+        ID: 2,
+        Name: 'Project2'
+      }, {
+        ID: 3,
+        Name: 'Project3'
+      }];
+    var employee = [{
+      ID: 1,
+      Name: 'Employee1'
+    }, {
+        ID: 2,
+        Name: 'Employee2'
+      }, {
+        ID: 3,
+        Name: 'Employee3'
+      }];
     var rec = [
       {
         ID: 1,
@@ -104,9 +124,13 @@ class EmployeeTimesheetList extends React.Component {
               <div className="col-md-7">
                 <select className="bs-select form-control" value={this.state.projectName} onChange={this.handleProjectNameChange}>
                   <option>Select</option>
-                  <option>Project1</option>
-                  <option>Project2</option>
-                  <option>Project3</option>
+                  {
+                    project.map((row, index) => {
+                      return (
+                        <option key={index}> {row.Name}</option>
+                      );
+                    })
+                  }
                 </select>
               </div>
             </div>
@@ -115,9 +139,13 @@ class EmployeeTimesheetList extends React.Component {
               <div className="col-md-7">
                 <select className="bs-select form-control" value={this.state.employeeName} onChange={this.handleEmployeeNameChange}>
                   <option>Select</option>
-                  <option>Employee1</option>
-                  <option>Employee2</option>
-                  <option>Employee3</option>
+                  {
+                    employee.map((row, index) => {
+                      return (
+                        <option key={index}> {row.Name}</option>
+                      );
+                    })
+                  }
                 </select>
               </div>
             </div>
