@@ -1,36 +1,101 @@
 import React from 'react';
 
-var moment = require('moment');
+/**
+ * Third Party Libraries
+ */
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+/**
+ * Older Components
+ * 
+ * <input type="date" className="form-control" value={this.state.formData.StartDate} onChange={this.handleStartDtChange}></input>
+ * <input type="date" className="form-control" value={this.state.formData.EndDate} onChange={this.handleEndDtChange}></input>
+ */
+
 class AddLeavesComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment(),
-            endDate: moment(),
+            formData: {
+                StartDate: '',
+                EndDate: '',
+                Reason: '',
+                TypeOfLeave: '',
+                NoOfDays: 0
+            },
+            startDate: null,
+            endDate: null
         };
+        this.handleStartDtChange = this.handleStartDtChange.bind(this);
+        this.handleEndDtChange = this.handleEndDtChange.bind(this);
+        this.handleReasonChange = this.handleReasonChange.bind(this);
+        this.handleLeaveTypeChange = this.handleLeaveTypeChange.bind(this);
+        this.handleNumDaysChange = this.handleNumDaysChange.bind(this);
+    }
+
+    // getInitialState() {
+    //     return {
+    //         startDate: moment(),
+    //         endDate: moment()
+    //     };
+    // }
+
+    handleStartDtChange(context, day) {
+        var form = this.state.formData;
+        form.StartDate = day.format('DD-MM-YYYY');
+        this.setState({ formData: form });
+        this.setState({ startDate : day });
+        console.log('StartDate : ', this.state.formData.StartDate);
+    }
+
+    handleEndDtChange(context, day) {
+        var form = this.state.formData;
+        form.EndDate = day.format('DD-MM-YYYY');
+        this.setState({ formData: form });
+        this.setState({ endDate : day });
+        console.log('EndDate : ', this.state.formData.EndDate);
+    }
+
+    handleReasonChange(e) {
+        var form = this.state.formData;
+        form.Reason = e.target.value;
+        this.setState({ formData: form });
+    }
+
+    handleLeaveTypeChange(e) {
+        var form = this.state.formData;
+        form.TypeOfLeave = e.target.value;
+        this.setState({ formData: form });
+    }
+
+    handleNumDaysChange(e) {
+        var form = this.state.formData;
+        form.NoOfDays = e.target.value;
+        this.setState({ formData: form });
     }
 
     render() {
-        var options= [
+        var options = [
             {
-                text : 'Select',
-                value : null
+                Text: 'Select',
+                Value: null
             },
             {
-                text : 'Leave',
-                value : 0
+                Text: 'Leave',
+                Value: 0
             },
             {
-                text : 'Half Day Leave',
-                value : 1
+                Text: 'Half Day Leave',
+                Value: 1
             },
             {
-                text : 'LWP',
-                value : 2
+                Text: 'LWP',
+                Value: 2
             },
             {
-                text : 'Half Day LWP',
-                value : 3
+                Text: 'Half Day LWP',
+                Value: 3
             }
         ];
         var context = this;
@@ -46,7 +111,7 @@ class AddLeavesComponent extends React.Component {
                     </div>
                 </div>
                 <div className="note note-info note-bordered">
-                    <p>Leaves on <strong>{moment().format('dddd, MMMM Do YYYY')}</strong></p>
+                    <p>Leaves on <strong>{ moment().format('MMMM-YYYY') }</strong></p>
                     <ul>
                         <li>John </li>
                         <li>Sherlock </li>
@@ -61,7 +126,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar"></i>
                                     </span>
-                                    <input type="date" className="form-control"></input>
+                                    <DatePicker  selected={this.state.startDate} onChange={context.handleStartDtChange.bind(null, context) } className="form-control" showMonthDropdown />
                                 </div>
                             </div>
                             <div className="form-group">
@@ -70,7 +135,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar"></i>
                                     </span>
-                                    <textarea type="text" className="form-control"></textarea>
+                                    <DatePicker  selected={this.state.endDate} onChange={context.handleEndDtChange.bind(null, context) } className="form-control" showMonthDropdown />
                                 </div>
                             </div>
                             <div className="form-group">
@@ -79,7 +144,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-file-text"></i>
                                     </span>
-                                    <textarea type="text" className="form-control"></textarea>
+                                    <textarea type="text" className="form-control" value={this.state.formData.Reason} onChange={this.handleReasonChange}></textarea>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -88,11 +153,11 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-list-ul"></i>
                                     </span>
-                                    <select className="form-control" >
+                                    <select className="form-control" value={this.state.formData.TypeOfLeave} onChange={this.handleLeaveTypeChange}>
                                         {
                                             options.map((row, index) => {
-                                                return(
-                                                    <option key={index} value={row.value}>{row.text} </option>
+                                                return (
+                                                    <option key={index} value={row.value}>{row.Text} </option>
                                                 );
                                             })
                                         }
@@ -105,7 +170,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar-o"></i>
                                     </span>
-                                    <input type="number" className="form-control"></input>
+                                    <input type="number" className="form-control" value={this.state.formData.NoOfDays} onChange={this.handleNumDaysChange}></input>
                                 </div>
                             </div>
                         </div>

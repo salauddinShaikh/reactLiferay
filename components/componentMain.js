@@ -5,7 +5,6 @@ import LeavesListComponent from './leavesListComponent';
 import AddLeavesComponent from './addLeavesComponent';
 import LeaveDetailsComponent from './leaveDetailsComponent';
 
-import '../style.css'
 class ComponentMain extends React.Component {
   constructor(props) {
     super(props);
@@ -34,12 +33,13 @@ class ComponentMain extends React.Component {
     this.setState({ showList: true, showDetails: false });
   }
 
-  onRecordClick(id) {
-    this.setState({ showDetails: true, showList: false, showEditView: false, leaveId: id });
+  onRecordClick(ID) {
+    debugger;
+    this.setState({ showDetails: true, showList: false, showEditView: false, leaveId: ID });
   }
 
-  onEditClick(id) {
-    this.setState({ showDetails: false, showList: false, showEditView: true, leaveId: id })
+  onEditClick(ID) {
+    this.setState({ showDetails: false, showList: false, showEditView: true, leaveId: ID })
   }
 
   render() {
@@ -52,19 +52,19 @@ class ComponentMain extends React.Component {
 
     else if (this.state.showList === false && this.state.showDetails === false && this.state.showEditView === false) {
       renderView = (
-        <AddLeavesComponent onBackClick={this.onBackClick} id={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
+        <AddLeavesComponent onBackClick={this.onBackClick} ID={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
       );
     }
 
     else if (this.state.showDetails === true && this.state.showList === false) {
       renderView = (
-        <LeaveDetailsComponent onBackClick={this.onBackClick} onEditClick={this.onEditClick} id={this.state.leaveId} editView={this.state.showEditView}/>
+        <LeaveDetailsComponent onBackClick={this.onBackClick} onEditClick={this.onEditClick} ID={this.state.leaveId} editView={this.state.showEditView}/>
       );
     }
 
     else if (this.state.showEditView === true) {
       renderView = (
-        <AddLeavesComponent onBackClick={this.onBackClick} id={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
+        <AddLeavesComponent onBackClick={this.onBackClick} ID={this.state.leaveId} editView={this.state.showEditView} onSubmitClick={this.onSubmitClick}/>
       );
     }
 

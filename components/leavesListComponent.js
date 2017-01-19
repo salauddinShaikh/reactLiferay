@@ -1,38 +1,81 @@
 import React from 'react';
 
+/**
+ * Third Party Libraries
+ */
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+/**
+ * Older Components
+ * 
+ */
+
 class LeavesListComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            filterData : {
+                StartDate : '',
+                EndDate : ''
+            },
+            startDate : null,
+            endDate : null
         };
+        this.onFilterClick = this.onFilterClick.bind(this)
+        this.handleEndDtChange = this.handleEndDtChange.bind(this);
+        this.handleStartDtChange = this.handleStartDtChange.bind(this);
+    }
+
+    onFilterClick() {
+        var context = this;
+        alert('Filter is set between :'+ this.state.filterData.StartDate + ' and ' + this.state.filterData.EndDate);
+    }
+
+    handleStartDtChange(context, day) {
+        var filterData = this.state.filterData;
+        filterData.StartDate = day.format('DD-MM-YYYY');
+        this.setState({ filterData: filterData });
+        this.setState({ startDate : day });
+    }
+
+    handleEndDtChange(context, day) {
+        var filterData = this.state.filterData;
+        filterData.EndDate = day.format('DD-MM-YYYY');
+        this.setState({ filterData: filterData });
+        this.setState({ endDate : day });
     }
 
     render() {
         var rec = [
             {
-                id: 1,
-                start: '29/12/2016',
-                end: '01/01/2017',
-                reason: 'Not well',
-                status: 'Approved'
+                ID: 1,
+                StartDate: '29/12/2016',
+                EndDate: '01/01/2017',
+                Reason: 'Not well',
+                status: 'Approved',
+                NoOfDays : 4
             }, {
-                id: 2,
-                start: '29/10/2016',
-                end: '01/11/2016',
-                reason: 'Not well',
-                status: 'Approved'
+                ID: 2,
+                StartDate: '29/10/2016',
+                EndDate: '01/11/2016',
+                Reason: 'Not well',
+                status: 'Approved',
+                NoOfDays : 4
             }, {
-                id: 3,
-                start: '12/09/2016',
-                end: '12/09/2017',
-                reason: 'Going home',
-                status: 'Partially Approved'
+                ID: 3,
+                StartDate: '12/09/2016',
+                EndDate: '12/09/2017',
+                Reason: 'Going home',
+                status: 'Partially Approved',
+                NoOfDays : 1
             }, {
-                id: 4,
-                start: '12/01/2017',
-                end: '13/01/2017',
-                reason: 'Going home',
-                status: 'Pending'
+                ID: 4,
+                StartDate: '12/01/2017',
+                EndDate: '13/01/2017',
+                Reason: 'Going home',
+                status: 'Pending',
+                NoOfDays : 2
             }
         ];
         var context = this;
@@ -70,18 +113,19 @@ class LeavesListComponent extends React.Component {
                             <div className="col-lg-5 col-md-5 col-xs-5">
                                 <label className="col-md-2 vAlign">From</label>
                                 <div className="col-md-10">
-                                    <input type="date" className="form-control"></input>
+                                    <DatePicker  selected={this.state.startDate} onChange={context.handleStartDtChange.bind(null,context)} className="form-control" showMonthDropdown />
                                 </div>
                             </div>
                             <div className="col-lg-5 col-md-5 col-xs-5">
                                 <label className="col-md-2 vAlign">To</label>
                                 <div className="col-md-10">
-                                    <input type="date" className="form-control"></input>
+                                    <DatePicker  selected={this.state.endDate} onChange={context.handleEndDtChange.bind(null,context)} className="form-control" showMonthDropdown />
                                 </div>
                             </div>
                             <div className="col-lg-2 col-md-2 col-xs-2">
-                                <div className="">
-                                    <button className="btn fullWidth"> Filter </button>
+                                 <label className="col-md-2"></label>
+                                <div className="col-md-10 ">
+                                    <button className="btn " onClick={this.onFilterClick}> Filter </button>
                                 </div>
                             </div>
                         </div>
@@ -92,24 +136,26 @@ class LeavesListComponent extends React.Component {
                             <thead>
                                 <tr>
                                     <th> # </th>
-                                    <th> Reason </th>
                                     <th> Start Date </th>
                                     <th> End Date </th>
+                                    <th> Reason </th>
                                     <th> Status </th>
+                                    <th> No. of Days </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     rec.map((row, index) => {
                                         return (
-                                            <tr key={row.id}>
+                                            <tr key={row.ID}>
                                                 <td> {index + 1} </td>
-                                                <td> <a onClick={ this.props.onRecordClick.bind(null,row.id) } > {row.reason}</a> </td>
-                                                <td> {row.start} </td>
-                                                <td> {row.end} </td>
+                                                <td> <a onClick={ this.props.onRecordClick.bind(null,row.ID) } > {row.StartDate}</a> </td>
+                                                <td> {row.EndDate} </td>
+                                                <td> {row.Reason} </td>
                                                 <td>
                                                     { this.statusLabel(row.status) }
                                                 </td>
+                                                <td> {row.NoOfDays} </td>
                                             </tr>
                                         );
                                     })

@@ -24,29 +24,33 @@ class LeaveDetailsComponent extends React.Component {
 
         var rec = [
             {
-                id: 1,
-                start: '29/12/2016',
-                end: '01/01/2017',
-                reason: 'Not well',
-                status: 'Approved'
+                ID: 1,
+                StartDate: '29/12/2016',
+                EndDate: '01/01/2017',
+                Reason: 'Not well',
+                status: 'Approved',
+                NoOfDays : 4
             }, {
-                id: 2,
-                start: '29/10/2016',
-                end: '01/11/2016',
-                reason: 'Not well',
-                status: 'Approved'
+                ID: 2,
+                StartDate: '29/10/2016',
+                EndDate: '01/11/2016',
+                Reason: 'Not well',
+                status: 'Approved',
+                NoOfDays : 4
             }, {
-                id: 3,
-                start: '12/09/2016',
-                end: '12/09/2017',
-                reason: 'Going home',
-                status: 'Partially Approved'
+                ID: 3,
+                StartDate: '12/09/2016',
+                EndDate: '12/09/2017',
+                Reason: 'Going home',
+                status: 'Partially Approved',
+                NoOfDays : 1
             }, {
-                id: 4,
-                start: '12/01/2017',
-                end: '13/01/2017',
-                reason: 'Going home',
-                status: 'Pending'
+                ID: 4,
+                StartDate: '12/01/2017',
+                EndDate: '13/01/2017',
+                Reason: 'Going home',
+                status: 'Pending',
+                NoOfDays : 2
             }
         ];
 
@@ -64,19 +68,23 @@ class LeaveDetailsComponent extends React.Component {
                                 <tbody>
                                     <tr>
                                         <td> Reason </td>
-                                        <td> {rec[this.props.id].reason} </td>
+                                        <td> {rec[this.props.ID].Reason} </td>
                                     </tr>
                                     <tr>
                                         <td> Start Date </td>
-                                        <td> {rec[this.props.id].start} </td>
+                                        <td> {rec[this.props.ID].StartDate} </td>
                                     </tr>
                                     <tr>
                                         <td> End Date </td>
-                                        <td> {rec[this.props.id].end} </td>
+                                        <td> {rec[this.props.ID].EndDate} </td>
                                     </tr>
                                     <tr>
                                         <td> Status </td>
-                                        <td> { this.statusLabel(rec[this.props.id].status) } </td>
+                                        <td> { this.statusLabel(rec[this.props.ID].status) } </td>
+                                    </tr>
+                                    <tr>
+                                        <td> No. of Days </td>
+                                        <td> {rec[this.props.ID].NoOfDays} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -110,7 +118,7 @@ class LeaveDetailsComponent extends React.Component {
 
                     <div className="form-actions">
                         <button className="btn" onClick={ this.props.onBackClick }> Back </button>
-                        <button className="btn pull-right" onClick={this.props.onEditClick.bind(null,this.props.id)} > <i className="fa fa-pencil-square-o"></i> Edit </button>
+                        <button className="btn pull-right" onClick={this.props.onEditClick.bind(null,this.props.ID)} > <i className="fa fa-pencil-square-o"></i> Edit </button>
                     </div>
                 </div>
             </div>
