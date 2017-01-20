@@ -3,9 +3,20 @@
 class ProfileViewComponent extends React.Component {
     constructor(props) {
         super(props); 
-        this.state = {};
+        this.state = {
+            profile:{}
+        };
     }
-
+    componentDidMount(){
+      var context=this;
+      if(this.props.params){
+        console.log("View--",this.props.params)
+        Liferay.Service('/eternus-portlet.employee/GetProfile',{ employeeId: this.props.params}, function(obj) {
+             console.log(obj);
+             context.setState({ profile:obj})
+        });
+      }
+    }
     render() {
      
         return(
@@ -24,7 +35,7 @@ class ProfileViewComponent extends React.Component {
                                                                     <div className="form-group">
                                                                         <label className="control-label col-md-3"><b>First Name:</b></label>
                                                                         <div className="col-md-9">
-                                                                            <p className="form-control-static" > Sachin </p>
+                                                                            <p className="form-control-static" > {this.state.profile.FName} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -32,7 +43,7 @@ class ProfileViewComponent extends React.Component {
                                                                     <div className="form-group ">
                                                                         <label className="control-label col-md-3"><b>Last Name:</b></label>
                                                                         <div className="col-md-9">
-                                                                            <p className="form-control-static" > Sarse </p>
+                                                                            <p className="form-control-static" > {this.state.profile.LName} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -42,7 +53,7 @@ class ProfileViewComponent extends React.Component {
                                                                     <div className="form-group">
                                                                         <label className="control-label col-md-3"><b>Gender:</b></label>
                                                                         <div className="col-md-9">
-                                                                             <p className="form-control-static" > Male </p>
+                                                                             <p className="form-control-static" > {this.state.profile.Gender} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -50,7 +61,7 @@ class ProfileViewComponent extends React.Component {
                                                                     <div className="form-group">
                                                                         <label className="control-label col-md-3"><b>Employee ID:</b></label>
                                                                         <div className="col-md-9">
-                                                                            <p className="form-control-static" > 100265 </p>
+                                                                            <p className="form-control-static" > {this.state.profile.EmpId} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -60,7 +71,7 @@ class ProfileViewComponent extends React.Component {
                                                                     <div className="form-group">
                                                                         <label className="control-label col-md-3"><b>Email ID: </b></label>
                                                                         <div className="col-md-9">
-                                                                            <p className="form-control-static" > Sarse@eternus.com </p>
+                                                                            <p className="form-control-static" > {this.state.profile.EmailID} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -68,7 +79,7 @@ class ProfileViewComponent extends React.Component {
                                                                    <div className="form-group">
                                                                         <label className="control-label col-md-3"><b>Designation:</b></label>
                                                                         <div className="col-md-9">
-                                                                            <p className="form-control-static" > Sr. System Executive </p>
+                                                                            <p className="form-control-static" > {this.state.profile.Designation} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -78,7 +89,7 @@ class ProfileViewComponent extends React.Component {
                                                                     <div className="form-group">
                                                                         <label className="control-label col-md-3"><b>Address 1:</b></label>
                                                                         <div className="col-md-9">
-                                                                            <p className="form-control-static" >  </p>
+                                                                            <p className="form-control-static" > {this.state.profile.Address1} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -86,7 +97,7 @@ class ProfileViewComponent extends React.Component {
                                                                     <div className="form-group">
                                                                         <label className="control-label col-md-3"><b>Address 2:</b></label>
                                                                         <div className="col-md-9">
-                                                                            <p className="form-control-static" >  </p>
+                                                                            <p className="form-control-static" > {this.state.profile.Address2} </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>

@@ -14,7 +14,9 @@ class ProfileAddEditComponent extends React.Component {
                   "Designation":'',
                   "Address1":'',
                   "Address2":''
-            }
+            },
+            departments:[],
+            designations:[],
         };
         this.handleFNameChange = this.handleFNameChange.bind(this);
         this.handleLNameChange = this.handleLNameChange.bind(this);
@@ -66,11 +68,33 @@ class ProfileAddEditComponent extends React.Component {
         form.Designation = e.target.value;
         this.setState({ formData : form });
     }
+    componentDidMount(){
+      var context=this;
+      if(this.props.params){
+        Liferay.Service('/eternus-portlet.employee/GetProfile',{ employeeId: this.props.params}, function(obj) {
+             context.setState({ formData:obj})
+        });
+      }
+      Liferay.Service('/eternus-portlet.department/GetDepartments',function(obj) {
+        context.setState({ departments:obj})
+      });
+      Liferay.Service('/eternus-portlet.designation/GetDesignations', function(obj) {
+        context.setState({ designations:obj})
+      });
+    }
+    componentWillReceiveProps(props){
+     var context=this;
+     if(props.params){
+        Liferay.Service('/eternus-portlet.employee/GetProfile',{ employeeId: props.params}, function(obj) {
+             context.setState({ formData:obj})
+        });
+      }
+    }
     onSave(){
         this.props.changeView('list') 
     }
     render() {
-        return(
+            return(                       
                 <div className="portlet light">
                     <div className="portlet-title">
                         <div className="caption">
@@ -118,11 +142,14 @@ class ProfileAddEditComponent extends React.Component {
                                                                         <label className="control-label col-md-3">Department</label>
                                                                         <div className="col-md-9">
                                                                             <select className="form-control" value={this.state.formData.Department} onChange={this.handleDepartmentChange}>
-                                                                                <option value="EBS">EBS</option>
-                                                                                <option value="ECS">ECS</option>
-                                                                                <option value="ESS">ESS</option>
-                                                                                <option value="Admin">Admin</option>
-                                                                                <option value="IT Support">IT Support</option>
+                                                                                <option>Select</option>
+                                                                                                    {
+                    this.state.departments.map((row, index) => {
+                      return (
+                        <option key={index} value={row.Name}> {row.Name}</option>
+                      );
+                    })
+                  }                                  
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -142,9 +169,14 @@ class ProfileAddEditComponent extends React.Component {
                                                                         <label className="control-label col-md-3">Designation</label>
                                                                         <div className="col-md-9">
                                                                             <select className="form-control" value={this.state.formData.Designation} onChange={this.handleDesignationChange}>
-                                                                                <option value="System Executive">System Executive</option>
-                                                                                <option value="Sr. System Executive">Sr. System Executive</option>
-                                                                                <option value="Manager">Manager</option>
+                                                                                  <option>Select</option>
+                                                                                   {
+                                                this.state.designations.map((row, index) => {
+                      return (
+                        <option key={index} value={row.Name}> {row.Name}</option>
+                      );
+                    })
+                  }         
                                                                             </select>
                                                                         </div>
                                                                     </div>
