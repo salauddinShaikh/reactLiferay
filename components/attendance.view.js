@@ -7,7 +7,7 @@ class Attendance extends React.Component {
         super(props);
         this.state = {
             attendance: {
-                InOuts:[]
+                InOuts: []
             },
             optionsPieSimple: {}
         };
@@ -29,24 +29,13 @@ class Attendance extends React.Component {
             function (obj) {
                 console.log('get-attendance : ', obj);
                 context.setState({ attendance: obj });
-                context.getChart();
+                context.getChart(obj);
             }
         );
-        // var rec = {
-        //     Date: '04/01/2017',
-        //     InTime: '9.30 am',
-        //     OutTime: '7.30 pm',
-        //     TotalTime: '9 hrs',
-        //     WorkingTime: '8 hrs',
-        //     BreakTime: '2 hrs',
-        //     Status: 'Present',
-        //     InOutTimes: ['9.30 am', '1.00 pm', '2.00 pm', '5.00 pm', '5.30 pm', '7.30 pm'],
-        // }
-        // context.setState({ attendance: rec });
-       //  this.getChart();
     }
 
-    getChart() {
+    getChart(rec) {
+        console.log('Chart :');
         var chart = {
             chart: {
                 plotBackgroundColor: null,
@@ -78,10 +67,10 @@ class Attendance extends React.Component {
                 colorByPoint: true,
                 data: [{
                     name: 'Working',
-                    y: 8,
+                    y: rec.WorkingTime,
                 }, {
                         name: 'Break',
-                        y: 2,
+                        y: rec.BreakTime,
                         sliced: true,
                         selected: true
                     }]
@@ -95,7 +84,7 @@ class Attendance extends React.Component {
     render() {
         var context = this;
         var style = {};
-        console.log('attendance',this.state.attendance)
+        console.log('attendance', this.state.attendance)
         return (
             <div className="portlet light">
                 <div className="portlet-title">
@@ -178,13 +167,13 @@ class Attendance extends React.Component {
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Working Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.attendance.WorkingTime} </label>
+                                    <label className="control-label">{this.state.attendance.WorkingTime} hrs</label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Break Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.attendance.BreakTime}</label>
+                                    <label className="control-label">{this.state.attendance.BreakTime}  hrs</label>
                                 </div>
                             </div>
                         </div>
