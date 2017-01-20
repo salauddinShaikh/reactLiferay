@@ -1,28 +1,62 @@
-import React from 'react';
+//import React from 'react';
 class EmployeeTimesheetList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fromDate: '',
-      toDate: '',
+      startDate: '',
+      endDate: '',
       projectName: '',
-      employeeName: ''
+      employeeName: '',
+      timesheetData: []
     };
-    this.handleFromDateChange = this.handleFromDateChange.bind(this);
-    this.handleToDateChange = this.handleToDateChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.handleEmployeeNameChange = this.handleEmployeeNameChange.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
   }
 
-  onSearchClick() {
-    console.log('search', this.state);
+  componentDidMount() {
+    this.getTimesheetList();
   }
-  handleFromDateChange(event) {
-    this.setState({ fromDate: event.target.value });
+
+  getTimesheetList() {
+    console.log('get-timesheetList : ');
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.timesheet/GetTimeSheets',
+      function (obj) {
+        console.log('get-timesheetList : ', obj);
+        context.setState({ timesheetData: obj });
+      }
+    );
   }
-  handleToDateChange(event) {
-    this.setState({ toDate: event.target.value });
+  onSearchClick(event) {
+    var context = this;
+    console.log('Search-get-timesheetList : ');
+    var searchObj = {
+    };
+    if (this.state.startDate != '')
+      searchObj.StartDate = this.state.startDate;
+    if (this.state.endDate != '')
+      searchObj.EndDate = this.state.endDate;
+    if (this.state.projectName != '')
+      searchObj.ProjectName = this.state.projectName;
+
+    Liferay.Service(
+      '/eternus-portlet.timesheet/GetTimeSheets',
+      searchObj,
+      function (obj) {
+        console.log('Search-get-timesheetList : ', obj);
+        context.setState({ timesheetData: obj });
+      }
+    );
+  }
+  handleStartDateChange(event) {
+    this.setState({ startDate: event.target.value });
+  }
+  handleEndDateChange(event) {
+    this.setState({ endDate: event.target.value });
   }
   handleProjectNameChange(event) {
     this.setState({ projectName: event.target.value });
@@ -106,15 +140,15 @@ class EmployeeTimesheetList extends React.Component {
         <div className="portlet-body">
           <div className="row">
             <div className="form-group col-md-5">
-              <label className="control-label col-md-5"><b>From</b></label>
+              <label className="control-label col-md-5"><b>Start Date</b></label>
               <div className="col-md-7">
-                <input type ="date" className="form-control form-control-inline" value={this.state.fromDate} onChange={this.handleFromDateChange} />
+                <input type ="date" className="form-control form-control-inline" value={this.state.startDate} onChange={this.handleStartDateChange} />
               </div>
             </div>
             <div className="form-group col-md-5">
-              <label className="control-label col-md-5"><b>To</b></label>
+              <label className="control-label col-md-5"><b>End Date</b></label>
               <div className="col-md-7">
-                <input type ="date" className="form-control form-control-inline"  value={this.state.toDate} onChange={this.handleToDateChange} />
+                <input type ="date" className="form-control form-control-inline"  value={this.state.endDate} onChange={this.handleEndDateChange} />
               </div>
             </div>
           </div>
@@ -172,7 +206,7 @@ class EmployeeTimesheetList extends React.Component {
               </thead>
               <tbody>
                 {
-                  rec.map((row, index) => {
+                  context.state.timesheetData.map((row, index) => {
 
                     switch (row.Status) {
                       case 'Approved':
