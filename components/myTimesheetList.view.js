@@ -1,24 +1,54 @@
-import React from 'react';
+//import React from 'react';
 class MyTimesheetList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fromDate: '',
-      toDate: ''
+      startDate: '',
+      endData: '',
+      timesheetData: []
     };
-    this.handleFromDateChange = this.handleFromDateChange.bind(this);
-    this.handleToDateChange = this.handleToDateChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDataChange = this.handleEndDataChange.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
   }
 
-  onSearchClick() {
-    console.log('search', this.state);
+  componentDidMount() {
+    this.getTimesheetList();
   }
-  handleFromDateChange(event) {
-    this.setState({ fromDate: event.target.value });
+
+  getTimesheetList() {
+    console.log('get-timesheetList : ');
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.timesheet/GetTimeSheets',
+      function (obj) {
+        console.log('get-timesheetList : ', obj);
+        context.setState({ timesheetData: obj });
+      }
+    );
   }
-  handleToDateChange(event) {
-    this.setState({ toDate: event.target.value });
+  onSearchClick(event) {
+    var context = this;
+    console.log('Search-get-timesheetList : ');
+    var searchObj = {
+    };
+    if (this.state.startDate != '')
+      searchObj.StartDate = this.state.startDate;
+    if (this.state.endData != '')
+      searchObj.EndDate = this.state.endData;
+    Liferay.Service(
+      '/eternus-portlet.timesheet/GetTimeSheets',
+      function (obj) {
+        console.log('Search-get-timesheetList : ', obj);
+        context.setState({ timesheetData: obj });
+      }
+    );
+  }
+  handleStartDateChange(event) {
+    this.setState({ startDate: event.target.value });
+  }
+  handleEndDataChange(event) {
+    this.setState({ endData: event.target.value });
   }
   render() {
     var statusClass = ''
@@ -70,13 +100,13 @@ class MyTimesheetList extends React.Component {
             <div className="form-group col-md-4">
               <label className="control-label col-md-4"><b>From</b></label>
               <div className="col-md-8">
-                <input type ="date" className="form-control form-control-inline" value={this.state.fromDate} onChange={this.handleFromDateChange} />
+                <input type ="date" className="form-control form-control-inline" value={this.state.startDate} onChange={this.handleStartDateChange} />
               </div>
             </div>
             <div className="form-group col-md-4">
-              <label className="control-label col-md-4"><b>To</b></label>
+              <label className="control-label col-md-4"><b>End</b></label>
               <div className="col-md-8">
-                <input type ="date" className="form-control form-control-inline"  value={this.state.toDate} onChange={this.handleToDateChange} />
+                <input type ="date" className="form-control form-control-inline"  value={this.state.endData} onChange={this.handleEndDataChange} />
               </div>
             </div>
             <div className="form-group col-md-2">
@@ -100,7 +130,7 @@ class MyTimesheetList extends React.Component {
               </thead>
               <tbody>
                 {
-                  rec.map((row, index) => {
+                  context.state.timesheetData.map((row, index) => {
 
                     switch (row.Status) {
                       case 'Approved':
