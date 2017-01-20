@@ -28,6 +28,16 @@ class EmployeeAttendance extends React.Component {
             },
             function (obj) {
                 console.log('get-attendance : ', obj);
+                var inOuts = obj.InOuts;
+                var parsedArray = [];
+                for (var count = 0; count < inOuts.length; count++) {
+                    if (inOuts[count].includes("in") || inOuts[count].includes("out")) {
+                        var rec = inOuts[i].split(":");
+                        parsedArray.push(rec[0]);
+                    }
+                }
+                obj.InOuts = parsedArray;
+                console.log('parsedArray Obj1 : ', obj);
                 context.setState({ attendance: obj });
                 console.log('updated Obj : ', obj);
                 context.getChart(obj);
