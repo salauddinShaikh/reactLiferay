@@ -4,11 +4,11 @@ class MyTimesheetList extends React.Component {
     super(props);
     this.state = {
       startDate: '',
-      endData: '',
+      endDate: '',
       timesheetData: []
     };
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
-    this.handleEndDataChange = this.handleEndDataChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
   }
 
@@ -34,8 +34,8 @@ class MyTimesheetList extends React.Component {
     };
     if (this.state.startDate != '')
       searchObj.StartDate = this.state.startDate;
-    if (this.state.endData != '')
-      searchObj.EndDate = this.state.endData;
+    if (this.state.endDate != '')
+      searchObj.EndDate = this.state.endDate;
     Liferay.Service(
       '/eternus-portlet.timesheet/GetTimeSheets',
       function (obj) {
@@ -47,8 +47,8 @@ class MyTimesheetList extends React.Component {
   handleStartDateChange(event) {
     this.setState({ startDate: event.target.value });
   }
-  handleEndDataChange(event) {
-    this.setState({ endData: event.target.value });
+  handleEndDateChange(event) {
+    this.setState({ endDate: event.target.value });
   }
   render() {
     var statusClass = ''
@@ -98,15 +98,15 @@ class MyTimesheetList extends React.Component {
         <div className="portlet-body">
           <div className="row">
             <div className="form-group col-md-4">
-              <label className="control-label col-md-4"><b>From</b></label>
+              <label className="control-label col-md-4"><b>Start Date</b></label>
               <div className="col-md-8">
                 <input type ="date" className="form-control form-control-inline" value={this.state.startDate} onChange={this.handleStartDateChange} />
               </div>
             </div>
             <div className="form-group col-md-4">
-              <label className="control-label col-md-4"><b>End</b></label>
+              <label className="control-label col-md-4"><b>End Date</b></label>
               <div className="col-md-8">
-                <input type ="date" className="form-control form-control-inline"  value={this.state.endData} onChange={this.handleEndDataChange} />
+                <input type ="date" className="form-control form-control-inline"  value={this.state.endDate} onChange={this.handleEndDateChange} />
               </div>
             </div>
             <div className="form-group col-md-2">
