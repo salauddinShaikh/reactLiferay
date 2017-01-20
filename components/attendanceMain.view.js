@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 import AttendanceList from './attendanceList.view';
 import Attendance from './attendance.view';
 
@@ -14,6 +14,7 @@ class AttendanceMainView extends React.Component {
   }
 
   onActionClick(id) {
+    console.log('ID', id);
     this.setState({ showList: false, id: id });
   }
 
@@ -23,6 +24,7 @@ class AttendanceMainView extends React.Component {
 
   render() {
     var renderView;
+      console.log('showListRender', this.state.showList);
     if (this.state.showList) {
       renderView = (
         <AttendanceList

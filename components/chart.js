@@ -1,5 +1,5 @@
-import React from 'react';
-import Highcharts from 'highcharts';
+//import React from 'react';
+//import Highcharts from 'highcharts';
 
 // Apply the theme
 //Highcharts.setOptions(Highcharts.theme);

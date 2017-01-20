@@ -1,61 +1,100 @@
-import React from 'react';
+// import React from 'react';
 class AttendanceList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fromDate: '',
-      toDate: ''
+      attendanceData: [],
+      startDate: '',
+      endData: '',
+
     };
     this.onSearchClick = this.onSearchClick.bind(this);
-    this.handleFromDateChange = this.handleFromDateChange.bind(this);
-    this.handleToDateChange = this.handleToDateChange.bind(this);  
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDataChange = this.handleEndDataChange.bind(this);
   }
 
 
-  handleFromDateChange(event) {
-    this.setState({ fromDate: event.target.value });
+  handleStartDateChange(event) {
+    this.setState({ startDate: event.target.value });
   }
-  handleToDateChange(event) {
-    this.setState({ toDate: event.target.value });
+  handleEndDataChange(event) {
+    this.setState({ endData: event.target.value });
   }
 
   onSearchClick(event) {
-    console.log('search', this.state);
+    var context = this;
+    console.log('Search-get-attendanceList : ');
+    var searchObj = {
+      employeeId: 1
+    };
+    if (this.state.startDate != '')
+      searchObj.StartDate = this.state.startDate;
+    if (this.state.endData != '')
+      searchObj.EndDate = this.state.endData;
+    Liferay.Service(
+      '/eternus-portlet.attendance/GetAttendanceLists',
+      searchObj,
+      function (obj) {
+        console.log('Search-get-attendanceList : ', obj);
+        context.setState({ attendanceData: obj });
+      }
+    );
+  }
+
+  componentDidMount() {
+    this.getAttendanceList();
+  }
+
+  getAttendanceList() {
+    console.log('get-attendanceList : ');
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.attendance/GetAttendanceLists',
+      {
+        employeeId: 1
+      },
+      function (obj) {
+        console.log('get-attendanceList : ', obj);
+        context.setState({ attendanceData: obj });
+      }
+    );
+    // var rec = [
+    //   {
+    //     ID: 1,
+    //     Date: '29/12/2016',
+    //     InTime: '9.00 am',
+    //     OutTime: '7.00 pm',
+    //     TotalTime: '10 hrs',
+    //     Status: 'Present'
+    //   }, {
+    //     ID: 2,
+    //     Date: '02/01/2017',
+    //     InTime: '9.30 am',
+    //     OutTime: '7.30 pm',
+    //     TotalTime: '10 hrs',
+    //     Status: 'Present'
+    //   }, {
+    //     ID: 3,
+    //     Date: '03/01/2017',
+    //     InTime: '',
+    //     OutTime: '',
+    //     TotalTime: '',
+    //     Status: 'Working from Home'
+    //   }, {
+    //     ID: 4,
+    //     Date: '04/01/2017',
+    //     InTime: '',
+    //     OutTime: '',
+    //     TotalTime: '',
+    //     Status: 'Absent'
+    //   },
+    // ];
+    // context.setState({ attendanceData: rec });
   }
 
   render() {
-    var rec = [
-      {
-        ID: 1,
-        Date: '29/12/2016',
-        InTime: '9.00 am',
-        OutTime: '7.00 pm',
-        TotalTime: '10 hrs',
-        Status:'Present'
-      }, {
-        ID: 2,
-        Date: '02/01/2017',
-        InTime: '9.30 am',
-        OutTime: '7.30 pm',
-        TotalTime: '10 hrs',
-        Status:'Present'
-      }, {
-        ID: 3,
-        Date: '03/01/2017',
-        InTime: '',
-        OutTime: '',
-        TotalTime: '',
-        Status:'Working from Home'
-      }, {
-        ID: 4,
-        Date: '04/01/2017',
-        InTime: '',
-        OutTime: '',
-        TotalTime: '',
-        Status:'Absent'
-      },
-    ];
     var context = this;
+    console.log(this.state);
     return (
       <div className="portlet light">
         <div className="portlet-title">
@@ -69,13 +108,13 @@ class AttendanceList extends React.Component {
             <div className="form-group col-md-4">
               <label className="control-label col-md-3"><b>From</b></label>
               <div className="col-md-9">
-                <input type ="date" className="form-control form-control-inline"  value={this.state.fromDate} onChange={this.handleFromDateChange}  />
+                <input type ="date" className="form-control form-control-inline"  value={this.state.startDate} onChange={this.handleStartDateChange}  />
               </div>
             </div>
             <div className="form-group col-md-4">
               <label className="control-label col-md-3"><b>To</b></label>
               <div className="col-md-9">
-                <input type ="date" className="form-control form-control-inline" value={this.state.toDate} onChange={this.handleToDateChange} />
+                <input type ="date" className="form-control form-control-inline" value={this.state.endData} onChange={this.handleEndDataChange} />
               </div>
             </div>
             <div className="form-group col-md-2">
@@ -98,7 +137,7 @@ class AttendanceList extends React.Component {
               </thead>
               <tbody>
                 {
-                  rec.map((row, index) => {
+                  context.state.attendanceData.map((row, index) => {
                     return (
                       <tr key={index}>
                         <td> {index + 1} </td>
@@ -113,6 +152,7 @@ class AttendanceList extends React.Component {
                     );
                   })
                 }
+
               </tbody>
             </table>
           </div>
