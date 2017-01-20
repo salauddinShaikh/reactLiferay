@@ -7,7 +7,9 @@ class EmployeeTimesheetList extends React.Component {
       endDate: '',
       projectName: '',
       employeeName: '',
-      timesheetData: []
+      timesheetData: [],
+      projectMaster: [],
+      employeeMaster: []
     };
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
@@ -18,6 +20,8 @@ class EmployeeTimesheetList extends React.Component {
 
   componentDidMount() {
     this.getTimesheetList();
+    this.getProjectMasterList();
+    this.getEmployeeMasterList();
   }
 
   getTimesheetList() {
@@ -25,9 +29,34 @@ class EmployeeTimesheetList extends React.Component {
     var context = this;
     Liferay.Service(
       '/eternus-portlet.timesheet/GetTimeSheets',
+      {
+        employeeId: 1
+      },
       function (obj) {
         console.log('get-timesheetList : ', obj);
         context.setState({ timesheetData: obj });
+      }
+    );
+  }
+
+  getProjectMasterList() {
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.project/GetProjects',
+      function (obj) {
+        console.log('Project Master', obj);
+        context.setState({ projectMaster: obj });
+      }
+    );
+  }
+
+  getEmployeeMasterList() {
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.mstemployee/GetEmployees',
+      function (obj) {
+        console.log('Employee Master', obj);
+        context.setState({ employeeMaster: obj });
       }
     );
   }
@@ -35,6 +64,7 @@ class EmployeeTimesheetList extends React.Component {
     var context = this;
     console.log('Search-get-timesheetList : ');
     var searchObj = {
+      employeeId: 1
     };
     if (this.state.startDate != '')
       searchObj.StartDate = this.state.startDate;
@@ -66,65 +96,6 @@ class EmployeeTimesheetList extends React.Component {
   }
   render() {
     var statusClass = ''
-    var project = [{
-      ID: 1,
-      Name: 'Project1'
-    }, {
-        ID: 2,
-        Name: 'Project2'
-      }, {
-        ID: 3,
-        Name: 'Project3'
-      }];
-    var employee = [{
-      ID: 1,
-      Name: 'Employee1'
-    }, {
-        ID: 2,
-        Name: 'Employee2'
-      }, {
-        ID: 3,
-        Name: 'Employee3'
-      }];
-    var rec = [
-      {
-        ID: 1,
-        StartDate: '20/12/2016',
-        EndDate: '02/01/2017',
-        BillableHours: '8 hrs',
-        NonBillableHours: '0 hrs',
-        Status: 'Approved',
-        EmployeeName: 'Employee1',
-        ProjectName: 'Project1'
-      }, {
-        ID: 2,
-        StartDate: '02/01/2017',
-        EndDate: '08/01/2017',
-        BillableHours: '5 hrs',
-        NonBillableHours: '3 hrs',
-        Status: 'Rejected',
-        EmployeeName: 'Employee1',
-        ProjectName: 'Project1'
-      }, {
-        ID: 3,
-        StartDate: '09/01/2017',
-        EndDate: '15/01/2017',
-        BillableHours: '8 hrs',
-        NonBillableHours: '0 hrs',
-        Status: 'Pending',
-        EmployeeName: 'Employee1',
-        ProjectName: 'Project1'
-      }, {
-        ID: 4,
-        StartDate: '16/01/2017',
-        EndDate: '22/01/2017',
-        BillableHours: '8 hrs',
-        NonBillableHours: '0 hrs',
-        Status: 'Submitted',
-        EmployeeName: 'Employee1',
-        ProjectName: 'Project1'
-      }
-    ];
     var context = this;
     return (
       <div className="portlet light">
@@ -159,7 +130,7 @@ class EmployeeTimesheetList extends React.Component {
                 <select className="bs-select form-control" value={this.state.projectName} onChange={this.handleProjectNameChange}>
                   <option>Select</option>
                   {
-                    project.map((row, index) => {
+                    context.state.projectMaster.map((row, index) => {
                       return (
                         <option key={index}> {row.Name}</option>
                       );
@@ -174,7 +145,7 @@ class EmployeeTimesheetList extends React.Component {
                 <select className="bs-select form-control" value={this.state.employeeName} onChange={this.handleEmployeeNameChange}>
                   <option>Select</option>
                   {
-                    employee.map((row, index) => {
+                    context.state.employeeMaster.map((row, index) => {
                       return (
                         <option key={index}> {row.Name}</option>
                       );
