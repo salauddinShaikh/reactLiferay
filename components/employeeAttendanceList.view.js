@@ -7,7 +7,9 @@ class EmployeeAttendanceList extends React.Component {
       toDate: '',
       projectName: '',
       employeeName: '',
-      attendanceData: []
+      attendanceData: [],
+      projectMaster: [],
+      employeeMaster: [],
     };
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
@@ -18,6 +20,30 @@ class EmployeeAttendanceList extends React.Component {
 
   componentDidMount() {
     this.getAttendanceList();
+    this.getProjectMasterList();
+    this.getEmployeeMasterList();
+  }
+
+  getProjectMasterList() {
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.project/GetProjects',
+      function (obj) {
+        console.log('Project Master', obj);
+        context.setState({ projectMaster: obj });
+      }
+    );
+  }
+
+  getEmployeeMasterList() {
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.mstemployee/GetEmployees',
+      function (obj) {
+        console.log('Employee Master', obj);
+        context.setState({ employeeMaster: obj });
+      }
+    );
   }
 
   getAttendanceList() {
@@ -71,41 +97,6 @@ class EmployeeAttendanceList extends React.Component {
     this.setState({ employeeName: event.target.value });
   }
   render() {
-    var rec = [
-      {
-        ID: 1,
-        EmployeeName: 'employee1',
-        Date: '29/12/2016',
-        InTime: '9.00 am',
-        OutTime: '7.00 pm',
-        TotalTime: '10 hrs',
-        Status: 'Present',
-      }, {
-        ID: 2,
-        EmployeeName: 'employee2',
-        Date: '02/01/2017',
-        InTime: '9.30 am',
-        OutTime: '7.30 pm',
-        TotalTime: '10 hrs',
-        Status: 'Present',
-      }, {
-        ID: 3,
-        EmployeeName: 'employee3',
-        Date: '03/01/2017',
-        InTime: '',
-        OutTime: '',
-        TotalTime: '',
-        Status: 'Working from Home',
-      }, {
-        ID: 4,
-        EmployeeName: 'employee4',
-        Date: '04/01/2017',
-        InTime: '',
-        OutTime: '',
-        TotalTime: '',
-        Status: 'Absent'
-      },
-    ];
     var context = this;
     return (
       <div className="portlet light">
@@ -137,9 +128,13 @@ class EmployeeAttendanceList extends React.Component {
               <div className="col-md-7">
                 <select className="bs-select form-control" value={this.state.projectName} onChange={this.handleProjectNameChange}>
                   <option>Select</option>
-                  <option>Project1</option>
-                  <option>Project2</option>
-                  <option>Project3</option>
+                  {
+                    context.state.projectMaster.map((row, index) => {
+                      return (
+                        <option key={index}> {row.Name}</option>
+                      );
+                    })
+                  }
                 </select>
               </div>
             </div>
@@ -148,9 +143,13 @@ class EmployeeAttendanceList extends React.Component {
               <div className="col-md-7">
                 <select className="bs-select form-control" value={this.state.employeeName} onChange={this.handleEmployeeNameChange}>
                   <option>Select</option>
-                  <option>Employee1</option>
-                  <option>Employee2</option>
-                  <option>Employee3</option>
+                  {
+                    context.state.employeeMaster.map((row, index) => {
+                      return (
+                        <option key={index}> {row.Name}</option>
+                      );
+                    })
+                  }
                 </select>
               </div>
             </div>

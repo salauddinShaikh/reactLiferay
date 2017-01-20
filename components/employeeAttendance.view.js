@@ -7,15 +7,6 @@ class EmployeeAttendance extends React.Component {
         super(props);
         this.state = {
             attendance: {
-                // EmployeeName: 'employee1',
-                // Date: '04/01/2017',
-                // InTime: '9.30 am',
-                // OutTime: '7.30 pm',
-                // TotalTime: '9 hrs',
-                // WorkingTime: '8 hrs',
-                // BreakTime: '3 hrs',
-                // Status: 'Present',
-                // times: ['9.30 am', '1.00 pm', '2.00 pm', '5.00 pm', '5.30 pm', '7.30 pm'],
                 InOuts: []
             },
             optionsPieSimple: {}
