@@ -29,12 +29,13 @@ class EmployeeAttendance extends React.Component {
             function (obj) {
                 console.log('get-attendance : ', obj);
                 context.setState({ attendance: obj });
-                context.getChart();
+                console.log('updated Obj : ', obj);
+                context.getChart(obj);
             }
         );
     }
 
-    getChart() {
+    getChart(obj) {
         this.setState({
             optionsPieSimple: {
                 chart: {
@@ -67,10 +68,10 @@ class EmployeeAttendance extends React.Component {
                     colorByPoint: true,
                     data: [{
                         name: 'Working',
-                        y: 8,
+                        y: obj.WorkingTime,
                     }, {
                             name: 'Break',
-                            y: 2,
+                            y: obj.BreakTime,
                             sliced: true,
                             selected: true
                         }]
