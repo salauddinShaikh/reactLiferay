@@ -1,10 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
 
 import LeavesListApprovalComponent from './leavesListApprovalComponent';
 import SingleLeaveApprovalComponent from './singleLeaveApprovalComponent';
 
-// import '../style.css'
 class ComponentMain extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +25,6 @@ class ComponentMain extends React.Component {
 
   onAddClick() {
         //this.setState({ showLeavesList: false, showLeavesDetail: false, showEditView: false });
-        alert('Leave Added');
   }
 
   onReject() {

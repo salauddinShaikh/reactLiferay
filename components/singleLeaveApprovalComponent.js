@@ -4,59 +4,46 @@ class LeaveDetailsComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            LeaveRecord: {
+                Approvers: [],
+                Leave: {
+                    StartDate: '',
+                    EndDate: '',
+                    Status: {},
+                    LeaveId: 0,
+                    NoOfDays: 0,
+                    TypeOfLeave: {},
+                    Reason: ''
+                }
+            }
         };
+    }
+
+    componentDidMount() {
+        this.getLeaveDetailsAPI();
+    }
+
+    /**
+     * getLeaveDetails API Call
+     */
+    getLeaveDetailsAPI() {
+        var context = this;
+        Liferay.Service(
+            '/eternus-portlet.leave/GetLeaveByEmployeeIdLeaveId',
+            {
+                employeeId: Liferay.ThemeDisplay.getUserId(),
+                leaveId: context.props.ID
+            },
+            function (obj) {
+                console.log('getLeaveDetailsAPI', obj);
+                context.setState({ LeaveRecord: obj });
+            }
+        );
     }
 
     render() {
 
-        var managerStatus = [
-            {
-                project: 'Project1',
-                manager: 'Manager1',
-                status: 'Approved',
-            }, {
-                project: 'Project2',
-                manager: 'Manager2',
-                status: 'Approved'
-            }, {
-                project: 'Project3',
-                manager: 'Manager3',
-                status: 'Approved'
-            }
-        ];
-
-        var rec = [
-            {
-                ID: 1,
-                StartDate: '29/12/2016',
-                EndDate: '01/01/2017',
-                Reason: 'Not well',
-                status: 'Approved',
-                NoOfDays : 4
-            }, {
-                ID: 2,
-                StartDate: '29/10/2016',
-                EndDate: '01/11/2016',
-                Reason: 'Not well',
-                status: 'Approved',
-                NoOfDays : 4
-            }, {
-                ID: 3,
-                StartDate: '12/09/2016',
-                EndDate: '12/09/2017',
-                Reason: 'Going home',
-                status: 'Partially Approved',
-                NoOfDays : 1
-            }, 
-            {
-                ID: 4,
-                StartDate: '12/01/2017',
-                EndDate: '13/01/2017',
-                Reason: 'Going home',
-                status: 'Pending',
-                NoOfDays : 2
-            }
-        ];
+        var context = this;
 
         return(
             <div className="portlet light bordered">
@@ -71,24 +58,24 @@ class LeaveDetailsComponent extends React.Component {
                             <table className="table table-hover table-light">
                                 <tbody>
                                     <tr>
-                                        <td> <strong>Reason</strong> </td>
-                                        <td> {rec[this.props.ID-1].Reason} </td>
+                                        <td> Reason </td>
+                                        <td> {context.state.LeaveRecord.Leave.Reason} </td>
                                     </tr>
                                     <tr>
-                                        <td> <strong>Start Date</strong> </td>
-                                        <td> {rec[this.props.ID-1].StartDate} </td>
+                                        <td> Start Date </td>
+                                        <td> {context.state.LeaveRecord.Leave.StartDate} </td>
                                     </tr>
                                     <tr>
-                                        <td> <strong>End Date</strong> </td>
-                                        <td> {rec[this.props.ID-1].EndDate} </td>
+                                        <td> End Date </td>
+                                        <td> {context.state.LeaveRecord.Leave.EndDate} </td>
                                     </tr>
                                     <tr>
-                                        <td> <strong>Status</strong> </td>
-                                        <td> { this.statusLabel(rec[this.props.ID-1].status) } </td>
+                                        <td> Status </td>
+                                        <td> { this.statusLabel(context.state.LeaveRecord.Leave.Status.Text) } </td>
                                     </tr>
                                     <tr>
-                                        <td> <strong>No. of Days</strong> </td>
-                                        <td> {rec[this.props.ID-1].NoOfDays} </td>
+                                        <td> No.of Days </td>
+                                        <td> {context.state.LeaveRecord.Leave.NoOfDays} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -99,21 +86,19 @@ class LeaveDetailsComponent extends React.Component {
                             <table className="table table-hover table-light">
                                 <thead>
                                     <tr>
-                                        <th> Active Project </th>
                                         <th> Concerned Manager </th>
                                         <th> Approval Status </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        managerStatus.map((row, index) => {
-                                            return(
-                                                <tr key={index+1}>
-                                                    <td> {row.project} </td>
+                                        context.state.LeaveRecord.Approvers.map((row, index) => {
+                                            return (
+                                                <tr key={index + 1}>
                                                     <td> {row.manager} </td>
                                                     <td> {row.status} </td>
                                                 </tr>
-                                        );
+                                            );
                                         })
                                     }
                                 </tbody>

@@ -1,4 +1,15 @@
-import React from 'react';
+// import React from 'react';
+
+/**
+ * Third Party Libraries
+ */
+// import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+/**
+ * older Components
+ * <DatePicker  selected={this.state.endDate} onChange={context.handleEndDtChange.bind(null,context)} className="form-control" showMonthDropdown />
+ */
 
 class LeavesListComponent extends React.Component {
     constructor(props) {
@@ -10,6 +21,7 @@ class LeavesListComponent extends React.Component {
                 EndDate: '',
             },
             checkAll: false,
+            Leaves: []
         };
         this.onFilterClick = this.onFilterClick.bind(this)
         this.handleEndDtChange = this.handleEndDtChange.bind(this);
@@ -19,16 +31,9 @@ class LeavesListComponent extends React.Component {
         // this.isChecked = this.isChecked.bind(this);
     }
 
-    // isChecked (e) {
-    // for (var i = 0; i < this.state.selection.length; i++) {
-    //     if (this.state.selection[i].value == e.target.value) {
-    //         console.log(JSON.stringify(this.state.selection[i]));
-    //         return this.state.selection[i].checked;
-    //     }
-    // }
-    //     console.log(JSON.stringify(e.target.value));
-    //     return false;
-    // }
+    componentDidMount() {
+        this.getLeavesAPI();
+    }
 
     handleCheckChange(e) {
         console.log('entering => ' +JSON.stringify(this.state.selection));
@@ -56,7 +61,6 @@ class LeavesListComponent extends React.Component {
     }
 
     handleAllCheckChange() {
-        alert('All Checked');
         if (this.state.checkAll === false) {
             this.state.checkAll = true;
             // TODO : instead of " this.state.selection.length " put the length of the data received with api call
@@ -75,59 +79,60 @@ class LeavesListComponent extends React.Component {
 
     onFilterClick() {
         var context = this;
-        alert('Filter is set!');
+        this.getFilteredLeavesAPI();
     }
 
     handleEndDtChange(e) {
-        var form = this.state.filterData;
-        form.EndDate = e.target.value;
-        this.setState({ formData: form });
+        var filterData = this.state.filterData;
+        filterData.EndDate = e.target.value;
+        this.setState({ filterData: filterData });
     }
 
     handleStartDtChange(e) {
-        var form = this.state.filterData;
-        form.StartDate = e.target.value;
-        this.setState({ formData: form });
+        var filterData = this.state.filterData;
+        filterData.StartDate = e.target.value;
+        this.setState({ filterData: filterData });
+    }
+
+    /**
+     * GetLeaves API Call
+     */
+    getLeavesAPI() {
+        var context = this;
+        Liferay.Service(
+            '/eternus-portlet.leave/GetLeaves',
+            {
+                employeeId: Liferay.ThemeDisplay.getUserId()
+            },
+            function (obj) {
+                console.log('getLeavesAPI', obj);
+                context.setState({ Leaves: obj });
+            }
+        );
+    }
+
+    /**
+     * GetFilteredLeaves API Call
+     */
+    getFilteredLeavesAPI() {
+        var context = this;
+        Liferay.Service(
+            '/eternus-portlet.leave/GetLeaves',
+            {
+                employeeId: Liferay.ThemeDisplay.getUserId(),
+                StartDate: context.state.filterData.StartDate,
+                EndDate: context.state.filterData.EndDate
+            },
+            function (obj) {
+                console.log(obj);
+                context.setState({ Leaves: obj });
+            }
+        );
     }
 
     render() {
         console.log('rendering!');
         var context = this;
-        var rec = [
-            {
-                ID: 1,
-                StartDate: '29/12/2016',
-                EndDate: '01/01/2017',
-                EmpName: 'Employee1',
-                Reason: 'Not well',
-                status: 'Approved',
-                NoOfLeaves: 4,
-            }, {
-                ID: 2,
-                StartDate: '29/10/2016',
-                EndDate: '01/11/2016',
-                EmpName: 'Employee2',
-                Reason: 'Not well',
-                status: 'Approved',
-                NoOfLeaves: 4,
-            }, {
-                ID: 3,
-                StartDate: '12/09/2016',
-                EndDate: '12/09/2017',
-                EmpName: 'Employee3',
-                Reason: 'Going home',
-                status: 'Partially Approved',
-                NoOfLeaves: 1,
-            }, {
-                ID: 4,
-                StartDate: '12/01/2017',
-                EndDate: '13/01/2017',
-                EmpName: 'Employee4',
-                Reason: 'Going home',
-                status: 'Pending',
-                NoOfLeaves: 2,
-            }
-        ];
 
         var checkStat = context.state.checkAll;
         return (
@@ -151,7 +156,7 @@ class LeavesListComponent extends React.Component {
                             <div className="col-lg-5 col-md-5 col-xs-5">
                                 <label className="col-md-2 vAlign">From</label>
                                 <div className="col-md-10">
-                                    <input type="date" className="form-control" value={this.state.filterData.StartDate} onChange={this.handleStartDtChange}></input>
+                                    <input type="date" className="form-control" value={this.state.filterData.StartDate} onChange={context.handleStartDtChange}></input>
                                 </div>
                             </div>
                             <div className="col-lg-5 col-md-5 col-xs-5">
@@ -176,7 +181,7 @@ class LeavesListComponent extends React.Component {
                                     <th>
 
                                         <label className="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" className="checkboxes" onChange={this.handleAllCheckChange} ></input>
+                                            <input type="checkbox" className="checkboxes" onChange={this.handleAllCheckChange} disabled></input>
                                             <span></span>
                                         </label>
 
@@ -191,23 +196,23 @@ class LeavesListComponent extends React.Component {
                             </thead>
                             <tbody>
                                 {
-                                    rec.map((row, index) => {
+                                    context.state.Leaves.map((row, index) => {
                                         return (
-                                            <tr key={row.ID}>
+                                            <tr key={row.LeaveId}>
                                                 <td>
 
                                                     <label className="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                        <input type="checkbox" className="checkboxes" value={row.ID} checked={this.isChecked(row.ID)} onChange={this.handleCheckChange}></input>
+                                                        <input type="checkbox" className="checkboxes" value={row.LeaveId} checked={this.isChecked(row.ID)} onChange={this.handleCheckChange}></input>
                                                         <span></span>
                                                     </label>
 
                                                 </td>
-                                                <td> <a onClick={ this.props.onRecordClick.bind(null, row.ID) } > {row.StartDate}</a> </td>
+                                                <td> <a onClick={ this.props.onRecordClick.bind(null, row.LeaveId) } > {row.StartDate}</a> </td>
                                                 <td> {row.EndDate} </td>
-                                                <td> {row.EmpName} </td>
+                                                <td> {row.EmployeeName} </td>
                                                 <td> {row.Reason} </td>
-                                                <td> { row.NoOfLeaves } </td>
-                                                <td> { this.statusLabel(row.status) } </td>
+                                                <td> {row.NoOfDays} </td>
+                                                <td> { this.statusLabel(row.Status) } </td>
                                             </tr>
                                         );
                                     })
