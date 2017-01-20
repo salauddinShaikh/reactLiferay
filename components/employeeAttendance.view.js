@@ -1,27 +1,49 @@
-import React from 'react';
-import Highcharts from 'highcharts';
+// import React from 'react';
+// import Highcharts from 'highcharts';
 import Chart from './chart.view';
 
 class EmployeeAttendance extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            employee: {
-                EmployeeName: 'employee1',
-                Date: '04/01/2017',
-                InTime: '9.30 am',
-                OutTime: '7.30 pm',
-                TotalTime: '9 hrs',
-                WorkingTime: '8 hrs',
-                BreakTime: '3 hrs',
-                Status: 'Present',
-                times: ['9.30 am', '1.00 pm', '2.00 pm', '5.00 pm', '5.30 pm', '7.30 pm']
+            attendance: {
+                // EmployeeName: 'employee1',
+                // Date: '04/01/2017',
+                // InTime: '9.30 am',
+                // OutTime: '7.30 pm',
+                // TotalTime: '9 hrs',
+                // WorkingTime: '8 hrs',
+                // BreakTime: '3 hrs',
+                // Status: 'Present',
+                // times: ['9.30 am', '1.00 pm', '2.00 pm', '5.00 pm', '5.30 pm', '7.30 pm'],
+                InOuts: []
             },
             optionsPieSimple: {}
         };
     }
 
     componentDidMount() {
+        console.log('getAttendance : ');
+        this.getAttendance();
+    }
+
+    getAttendance() {
+        var context = this;
+        Liferay.Service(
+            '/eternus-portlet.attendance/GetByEmployeeIdAttendanceId',
+            {
+                employeeId: 1,
+                attendanceId: context.props.id
+            },
+            function (obj) {
+                console.log('get-attendance : ', obj);
+                context.setState({ attendance: obj });
+                context.getChart();
+            }
+        );
+    }
+
+    getChart() {
         this.setState({
             optionsPieSimple: {
                 chart: {
@@ -85,7 +107,7 @@ class EmployeeAttendance extends React.Component {
                         <tbody>
                             <tr>
                                 {
-                                    this.state.employee.times.map((row, index) => {
+                                    this.state.attendance.InOuts.map((row, index) => {
                                         if ((index + 1) % 2 === 0) {
                                             style = {
                                                 backgroundColor: 'indianred',
@@ -121,49 +143,49 @@ class EmployeeAttendance extends React.Component {
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Name: </b> </label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.EmployeeName} </label>
+                                    <label className="control-label">{this.state.attendance.EmployeeName} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Date: </b> </label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.Date} </label>
+                                    <label className="control-label">{this.state.attendance.Date} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Status: </b> </label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.Status} </label>
+                                    <label className="control-label">{this.state.attendance.Status} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>In Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.InTime} </label>
+                                    <label className="control-label">{this.state.attendance.InTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Out Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.OutTime} </label>
+                                    <label className="control-label">{this.state.attendance.OutTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Total Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.TotalTime} </label>
+                                    <label className="control-label">{this.state.attendance.TotalTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Working Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.WorkingTime} </label>
+                                    <label className="control-label">{this.state.attendance.WorkingTime} </label>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-md-4 control-label"><b>Break Time: </b></label>
                                 <div className="col-md-8">
-                                    <label className="control-label">{this.state.employee.BreakTime}</label>
+                                    <label className="control-label">{this.state.attendance.BreakTime}</label>
                                 </div>
                             </div>
                         </div>

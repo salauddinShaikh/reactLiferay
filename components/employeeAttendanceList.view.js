@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 class EmployeeAttendanceList extends React.Component {
   constructor(props) {
     super(props);
@@ -7,6 +7,7 @@ class EmployeeAttendanceList extends React.Component {
       toDate: '',
       projectName: '',
       employeeName: '',
+      attendanceData: []
     };
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
@@ -15,9 +16,47 @@ class EmployeeAttendanceList extends React.Component {
     this.onSearchClick = this.onSearchClick.bind(this);
   }
 
-  onSearchClick() {
-    console.log('search', this.state);
+  componentDidMount() {
+    this.getAttendanceList();
+  }
 
+  getAttendanceList() {
+    console.log('get-attendanceList : ');
+    var context = this;
+    Liferay.Service(
+      '/eternus-portlet.attendance/GetAttendanceLists',
+      {
+        employeeId: 1
+      },
+      function (obj) {
+        console.log('get-attendanceList : ', obj);
+        context.setState({ attendanceData: obj });
+      }
+    );
+  }
+
+  onSearchClick(event) {
+    var context = this;
+    console.log('Search-get-attendanceList : ');
+    var searchObj = {
+      employeeId: 1
+    };
+
+    if (this.state.startDate != '')
+      searchObj.StartDate = this.state.startDate;
+    if (this.state.endData != '')
+      searchObj.EndDate = this.state.endData;
+    if (this.state.projectName != '')
+      searchObj.EndDate = this.state.projectName;
+
+    Liferay.Service(
+      '/eternus-portlet.attendance/GetAttendanceLists',
+      searchObj,
+      function (obj) {
+        console.log('Search-get-attendanceList : ', obj);
+        context.setState({ attendanceData: obj });
+      }
+    );
   }
   handleFromDateChange(event) {
     this.setState({ fromDate: event.target.value });
@@ -136,7 +175,7 @@ class EmployeeAttendanceList extends React.Component {
               </thead>
               <tbody>
                 {
-                  rec.map((row, index) => {
+                  this.state.attendanceData.map((row, index) => {
                     return (
                       <tr key={index}>
                         <td> {index + 1} </td>
