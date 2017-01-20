@@ -1,16 +1,20 @@
-import React from 'react';
+// import React from 'react';
 
 /**
  * Third Party Libraries
  */
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 /**
  * Older Components
  * 
- * <input type="date" className="form-control" value={this.state.formData.StartDate} onChange={this.handleStartDtChange}></input>
- * <input type="date" className="form-control" value={this.state.formData.EndDate} onChange={this.handleEndDtChange}></input>
+ * <DatePicker  selected={this.state.startDate} onChange={context.handleStartDtChange.bind(null, context) } className="form-control" showMonthDropdown />
+ * <DatePicker  selected={this.state.endDate} onChange={context.handleEndDtChange.bind(null, context) } className="form-control" showMonthDropdown />
+ *  <div className="btn-group">
+        <a onClick={ context.props.onDeleteClick.bind(null,context.props.ID) } className="btn btn-sm green dropdown-toggle" data-toggle="dropdown"><i className="fa fa-trash-o"></i> Delete Request
+        </a>
+    </div>
  */
 
 class AddLeavesComponent extends React.Component {
@@ -21,11 +25,9 @@ class AddLeavesComponent extends React.Component {
                 StartDate: '',
                 EndDate: '',
                 Reason: '',
-                TypeOfLeave: '',
+                TypeOfLeave:'',
                 NoOfDays: 0
             },
-            startDate: null,
-            endDate: null,
             MstrLeaveType: []
         };
         this.handleStartDtChange = this.handleStartDtChange.bind(this);
@@ -44,26 +46,32 @@ class AddLeavesComponent extends React.Component {
      * getLeaveType API Call
      */
     getLeaveTypeAPI() {
-        // Liferay.Service(
-        //     'URL/Of/API/CallFor/getLeaveTypeAPI',
-        //     function (obj) {
-        //         console.log('get-albums : ', obj);
-        //         rec.setState({ MstrLeaveType: obj });
-        //     }
-        // );
+        var context = this;
+        Liferay.Service(
+            '/eternus-portlet.leavetype/GetLeaveTypes',
+            function (obj) {
+                console.log('getLeaveTypeAPI',obj);
+                context.setState({ MstrLeaveType : obj});
+            }
+        );
     }
 
     /**
-    * GetLeaveCount API Call
-    */
+     * getLeaveDetails API Call
+     */
     getLeaveDetailsAPI() {
-        // Liferay.Service(
-        //     'URL/Of/API/CallFor/GetLeaveDetailsAPI',
-        //     function (obj) {
-        //         console.log('get-albums : ', obj);
-        //         rec.setState({ formData: obj });
-        //     }
-        // );
+        var context = this;
+        Liferay.Service(
+            '/eternus-portlet.leave/GetLeaveByEmployeeIdLeaveId',
+            {
+                employeeId: Liferay.ThemeDisplay.getUserId(),
+                leaveId: context.props.ID
+            },
+            function (obj) {
+                console.log('getLeaveDetailsAPI', obj);
+                context.setState({ formData: obj });
+            }
+        );
     }
 
     /**
@@ -102,64 +110,48 @@ class AddLeavesComponent extends React.Component {
         // );
     }
 
-    handleStartDtChange(context, day) {
-        var form = this.state.formData;
-        form.StartDate = day.format('DD-MM-YYYY');
-        this.setState({ formData: form });
-        this.setState({ startDate: day });
-        console.log('StartDate : ', this.state.formData.StartDate);
+    handleEndDtChange(e) {
+        var formData = this.state.formData;
+        formData.EndDate = e.target.value;
+        this.setState({ formData: formData });
+        console.log('handleEndDtChange',this.state.formData.EndDate);
     }
 
-    handleEndDtChange(context, day) {
-        var form = this.state.formData;
-        form.EndDate = day.format('DD-MM-YYYY');
-        this.setState({ formData: form });
-        this.setState({ endDate: day });
-        console.log('EndDate : ', this.state.formData.EndDate);
+    handleStartDtChange(e) {
+        var formData = this.state.formData;
+        formData.StartDate = e.target.value;
+        this.setState({ formData: formData });
+        console.log('handleStartDtChange',this.state.formData.StartDate);
     }
 
     handleReasonChange(e) {
         var form = this.state.formData;
         form.Reason = e.target.value;
         this.setState({ formData: form });
+        console.log('handleReasonChange',this.state.formData.Reason);
     }
 
     handleLeaveTypeChange(e) {
         var form = this.state.formData;
         form.TypeOfLeave = e.target.value;
         this.setState({ formData: form });
+        console.log('handleLeaveTypeChange',this.state.formData.TypeOfLeave.Text);
     }
 
     handleNumDaysChange(e) {
         var form = this.state.formData;
         form.NoOfDays = e.target.value;
         this.setState({ formData: form });
+        console.log('handleNumDaysChange',this.state.formData.NoOfDays);
+    }
+
+    onEndBlur() {
+        
     }
 
     render() {
-        var options = [
-            {
-                Text: 'Select',
-                Value: null
-            },
-            {
-                Text: 'Leave',
-                Value: 0
-            },
-            {
-                Text: 'Half Day Leave',
-                Value: 1
-            },
-            {
-                Text: 'LWP',
-                Value: 2
-            },
-            {
-                Text: 'Half Day LWP',
-                Value: 3
-            }
-        ];
         var context = this;
+        console.log('leave types : ', context.state);
         return (
             <div className="portlet light bordered">
                 <div className="portlet-title">
@@ -168,15 +160,8 @@ class AddLeavesComponent extends React.Component {
                         <span className="caption-subject bold uppercase">Apply Leave</span>
                     </div>
                     <div className="actions">
-                        { this.actionsView(this.props.editView) }
+                        { context.actionsView(context.props.editView) }
                     </div>
-                </div>
-                <div className="note note-info note-bordered">
-                    <p>Leaves on <strong>{ moment().format('MMMM-YYYY') }</strong></p>
-                    <ul>
-                        <li>John </li>
-                        <li>Sherlock </li>
-                    </ul>
                 </div>
                 <div className="portlet-body">
                     <form role="form">
@@ -187,7 +172,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar"></i>
                                     </span>
-                                    <DatePicker  selected={this.state.startDate} onChange={context.handleStartDtChange.bind(null, context) } className="form-control" showMonthDropdown />
+                                    <input type="date" className="form-control" value={context.state.formData.StartDate} onChange={context.handleStartDtChange}></input>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -196,7 +181,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar"></i>
                                     </span>
-                                    <DatePicker  selected={this.state.endDate} onChange={context.handleEndDtChange.bind(null, context) } className="form-control" showMonthDropdown />
+                                    <input type="date" className="form-control" value={context.state.formData.EndDate} onChange={context.handleEndDtChange}onBlur={context.onEndBlur}></input>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -205,7 +190,7 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-file-text"></i>
                                     </span>
-                                    <textarea type="text" className="form-control" value={this.state.formData.Reason} onChange={this.handleReasonChange}></textarea>
+                                    <textarea type="text" className="form-control" value={context.state.formData.Reason} onChange={context.handleReasonChange}></textarea>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -214,11 +199,12 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-list-ul"></i>
                                     </span>
-                                    <select className="form-control" value={this.state.formData.TypeOfLeave} onChange={this.handleLeaveTypeChange}>
+                                    <select className="form-control" value={context.state.formData.TypeOfLeave} onChange={context.handleLeaveTypeChange}>
+                                    <option>Select</option>
                                         {
-                                            options.map((row, index) => {
+                                            context.state.MstrLeaveType.map((row, index) => {
                                                 return (
-                                                    <option key={index} value={row.value}>{row.Text} </option>
+                                                    <option key={index} > {row} </option>
                                                 );
                                             })
                                         }
@@ -231,13 +217,13 @@ class AddLeavesComponent extends React.Component {
                                     <span className="input-group-addon">
                                         <i className="fa fa-calendar-o"></i>
                                     </span>
-                                    <input type="number" className="form-control" value={this.state.formData.NoOfDays} onChange={this.handleNumDaysChange}></input>
+                                    <input type="number" className="form-control" value={context.state.formData.NoOfDays} onChange={context.handleNumDaysChange}></input>
                                 </div>
                             </div>
                         </div>
                         <div className="form-actions">
                             <button type="button" className="btn default" onClick={ this.props.onBackClick }><i className="fa fa-angle-double-left"></i> Back</button>
-                            { this.submitButtonView(this.props.editview) }
+                            { context.submitButtonView(context.props.editview) }
                         </div>
                     </form>
                 </div>
@@ -246,25 +232,25 @@ class AddLeavesComponent extends React.Component {
     }
 
     submitButtonView(editview) {
+        var context = this;
         if (editview) {
             return (
-                <button type="button" onClick={ this.props.onSubmitClick.bind(null, { name: 'if condition' }) } className="btn green pull-right" disabled >Submit</button>
+                <button type="button" onClick={ context.props.onSubmitClick.bind(null, { action :'updateLeave' ,data: context.formData }) } className="btn green pull-right" disabled >Submit</button>
             );
         }
         else {
             return (
-                <button type="button" onClick={ this.props.onSubmitClick.bind(null, { id: 'else condition' }) } className="btn green pull-right" >Submit</button>
+                <button type="button" onClick={ context.props.onSubmitClick.bind(null, { action :'applyLeave' ,data: context.formData }) } className="btn green pull-right" >Submit</button>
             );
         }
     }
 
     actionsView(editview) {
+        var context = this;
         if (editview) {
+
             return (
-                <div className="btn-group">
-                    <a onClick={ this.props.onDeleteClick.bind(null, this.props.leaveId) } className="btn btn-sm green dropdown-toggle" data-toggle="dropdown"><i className="fa fa-trash-o"></i> Delete Request
-                    </a>
-                </div>
+                <div></div>
             );
         }
         else {

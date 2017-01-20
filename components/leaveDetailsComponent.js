@@ -1,60 +1,49 @@
-import React from 'react';
+// import React from 'react';
 
 class LeaveDetailsComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            LeaveRecord: {
+                Approvers: [],
+                Leave: {
+                    StartDate: '',
+                    EndDate: '',
+                    Status: {},
+                    LeaveId: 0,
+                    NoOfDays: 0,
+                    TypeOfLeave: {},
+                    Reason: ''
+                }
+            }
         };
     }
 
+    componentDidMount() {
+        this.getLeaveDetailsAPI();
+    }
+
+    /**
+     * getLeaveDetails API Call
+     */
+    getLeaveDetailsAPI() {
+        var context = this;
+        Liferay.Service(
+            '/eternus-portlet.leave/GetLeaveByEmployeeIdLeaveId',
+            {
+                employeeId: Liferay.ThemeDisplay.getUserId(),
+                leaveId: context.props.ID
+            },
+            function (obj) {
+                console.log('getLeaveDetailsAPI', obj);
+                context.setState({ LeaveRecord: obj });
+            }
+        );
+    }
+
     render() {
-
-        var managerStatus = [
-            {
-                manager: 'Manager1',
-                status: 'Approved'
-            }, {
-                manager: 'Manager2',
-                status: 'Approved'
-            }, {
-                manager: 'Manager3',
-                status: 'Approved'
-            }
-        ];
-
-        var rec = [
-            {
-                ID: 1,
-                StartDate: '29/12/2016',
-                EndDate: '01/01/2017',
-                Reason: 'Not well',
-                status: 'Approved',
-                NoOfDays : 4
-            }, {
-                ID: 2,
-                StartDate: '29/10/2016',
-                EndDate: '01/11/2016',
-                Reason: 'Not well',
-                status: 'Approved',
-                NoOfDays : 4
-            }, {
-                ID: 3,
-                StartDate: '12/09/2016',
-                EndDate: '12/09/2017',
-                Reason: 'Going home',
-                status: 'Partially Approved',
-                NoOfDays : 1
-            }, {
-                ID: 4,
-                StartDate: '12/01/2017',
-                EndDate: '13/01/2017',
-                Reason: 'Going home',
-                status: 'Pending',
-                NoOfDays : 2
-            }
-        ];
-
-        return(
+        var context = this;
+        return (
             <div className="portlet light bordered">
                 <div className="portlet-title">
                     <div className="caption font-red-sunglo">
@@ -68,23 +57,23 @@ class LeaveDetailsComponent extends React.Component {
                                 <tbody>
                                     <tr>
                                         <td> Reason </td>
-                                        <td> {rec[this.props.ID].Reason} </td>
+                                        <td> {context.state.LeaveRecord.Leave.Reason} </td>
                                     </tr>
                                     <tr>
                                         <td> Start Date </td>
-                                        <td> {rec[this.props.ID].StartDate} </td>
+                                        <td> {context.state.LeaveRecord.Leave.StartDate} </td>
                                     </tr>
                                     <tr>
                                         <td> End Date </td>
-                                        <td> {rec[this.props.ID].EndDate} </td>
+                                        <td> {context.state.LeaveRecord.Leave.EndDate} </td>
                                     </tr>
                                     <tr>
                                         <td> Status </td>
-                                        <td> { this.statusLabel(rec[this.props.ID].status) } </td>
+                                        <td> { this.statusLabel(context.state.LeaveRecord.Leave.Status.Text) } </td>
                                     </tr>
                                     <tr>
-                                        <td> No. of Days </td>
-                                        <td> {rec[this.props.ID].NoOfDays} </td>
+                                        <td> No.of Days </td>
+                                        <td> {context.state.LeaveRecord.Leave.NoOfDays} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -101,13 +90,13 @@ class LeaveDetailsComponent extends React.Component {
                                 </thead>
                                 <tbody>
                                     {
-                                        managerStatus.map((row, index) => {
-                                            return(
-                                                <tr key={index+1}>
+                                        context.state.LeaveRecord.Approvers.map((row, index) => {
+                                            return (
+                                                <tr key={index + 1}>
                                                     <td> {row.manager} </td>
                                                     <td> {row.status} </td>
                                                 </tr>
-                                        );
+                                            );
                                         })
                                     }
                                 </tbody>
@@ -118,7 +107,7 @@ class LeaveDetailsComponent extends React.Component {
 
                     <div className="form-actions">
                         <button className="btn" onClick={ this.props.onBackClick }> Back </button>
-                        <button className="btn pull-right" onClick={this.props.onEditClick.bind(null,this.props.ID)} > <i className="fa fa-pencil-square-o"></i> Edit </button>
+                        <button className="btn pull-right" onClick={this.props.onEditClick.bind(null, this.props.ID) } > <i className="fa fa-pencil-square-o"></i> Edit </button>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
 
 import LeavesListComponent from './leavesListComponent';
 import AddLeavesComponent from './addLeavesComponent';
@@ -23,8 +23,8 @@ class ComponentMain extends React.Component {
   }
 
   onDeleteClick(id) {
-    alert('delete ' + id + '?');
     this.onDeleteAPI(id);
+    // this.setState({ showList: true, showDetails: false, showEditView: false, leaveId:0 });
   }
 
   onAddClick() {
@@ -35,8 +35,8 @@ class ComponentMain extends React.Component {
     this.setState({ showList: true, showDetails: false });
   }
 
-  onSubmitClick(id) {
-    console.log('got something', id);
+  onSubmitClick(actionData) {
+    var context = this;
     this.setState({ showList: true, showDetails: false });
   }
 
@@ -54,21 +54,23 @@ class ComponentMain extends React.Component {
    * onDelete API Call
    */
   onDeleteAPI(id) {
-    // Liferay.Service(
-    //   '/Test007-portlet.album/DeleteAlbumAPI',
-    //   {
-    //     albumId: id
-    //   },
-    //   function (obj) {
-    //     console.log('delete : ', obj);
-    //     this.setState({ showList: true, showDetails: false });
-    //   }
-    // );
+    var context = this;
+    Liferay.Service(
+      '/Test007-portlet.album/DeleteAlbumAPI',
+      {
+        employeeId: Liferay.ThemeDisplay.getUserId(),
+        leaveId: id
+      },
+      function (obj) {
+        console.log('delete : ', obj);
+        context.setState({ showList: obj.Status, showDetails: false });
+      }
+    );
   }
 
   render() {
     var renderView;
-    if (this.state.showList === true) {
+    if (this.state.showList === true ) {
       renderView = (
         <LeavesListComponent onAddClick={this.onAddClick} onRecordClick={this.onRecordClick} />
       );
