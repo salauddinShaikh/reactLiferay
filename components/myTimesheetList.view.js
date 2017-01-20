@@ -21,6 +21,9 @@ class MyTimesheetList extends React.Component {
     var context = this;
     Liferay.Service(
       '/eternus-portlet.timesheet/GetTimeSheets',
+      {
+        employeeId: 1
+      },
       function (obj) {
         console.log('get-timesheetList : ', obj);
         context.setState({ timesheetData: obj });
@@ -31,6 +34,7 @@ class MyTimesheetList extends React.Component {
     var context = this;
     console.log('Search-get-timesheetList : ');
     var searchObj = {
+      employeeId: 1
     };
     if (this.state.startDate != '')
       searchObj.StartDate = this.state.startDate;
@@ -38,6 +42,7 @@ class MyTimesheetList extends React.Component {
       searchObj.EndDate = this.state.endDate;
     Liferay.Service(
       '/eternus-portlet.timesheet/GetTimeSheets',
+      searchObj,
       function (obj) {
         console.log('Search-get-timesheetList : ', obj);
         context.setState({ timesheetData: obj });
@@ -51,38 +56,7 @@ class MyTimesheetList extends React.Component {
     this.setState({ endDate: event.target.value });
   }
   render() {
-    var statusClass = ''
-    var rec = [
-      {
-        ID: 1,
-        StartDate: '20/12/2016',
-        EndDate: '02/01/2017',
-        BillableHours: '8 hrs',
-        NonBillableHours: '0 hrs',
-        Status: 'Approved'
-      }, {
-        ID: 2,
-        StartDate: '02/01/2017',
-        EndDate: '08/01/2017',
-        BillableHours: '5 hrs',
-        NonBillableHours: '3 hrs',
-        Status: 'Rejected'
-      }, {
-        ID: 3,
-        StartDate: '09/01/2017',
-        EndDate: '15/01/2017',
-        BillableHours: '8 hrs',
-        NonBillableHours: '0 hrs',
-        Status: 'Pending'
-      }, {
-        ID: 4,
-        StartDate: '16/01/2017',
-        EndDate: '22/01/2017',
-        BillableHours: '8 hrs',
-        NonBillableHours: '0 hrs',
-        Status: 'Submitted'
-      }
-    ];
+    var statusClass = '';
     var context = this;
     return (
       <div className="portlet light">
