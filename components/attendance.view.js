@@ -32,7 +32,7 @@ class Attendance extends React.Component {
                 var parsedArray = [];
                 for (var count = 0; count < inOuts.length; count++) {
                     if (inOuts[count].includes("in") || inOuts[count].includes("out")) {
-                        var rec = inOuts[i].split(":");
+                        var rec = inOuts[count].split(":");
                         parsedArray.push(rec[0]);
                     }
                 }
