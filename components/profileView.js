@@ -11,7 +11,7 @@ class ProfileViewComponent extends React.Component {
       var context=this;
       if(this.props.params){
         console.log("View--",this.props.params)
-        Liferay.Service('/eternus-portlet.employee/GetProfile',{ employeeId: this.props.params}, function(obj) {
+        Liferay.Service('/eternus.employee/GetProfile',{ employeeId: this.props.params}, function(obj) {
              console.log(obj);
              context.setState({ profile:obj})
         });

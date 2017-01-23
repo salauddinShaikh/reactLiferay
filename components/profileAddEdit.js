@@ -71,21 +71,21 @@ class ProfileAddEditComponent extends React.Component {
     componentDidMount(){
       var context=this;
       if(this.props.params){
-        Liferay.Service('/eternus-portlet.employee/GetProfile',{ employeeId: this.props.params}, function(obj) {
+        Liferay.Service('/eternus.employee/GetProfile',{ employeeId: this.props.params}, function(obj) {
              context.setState({ formData:obj})
         });
       }
-      Liferay.Service('/eternus-portlet.department/GetDepartments',function(obj) {
+      Liferay.Service('/eternus.department/GetDepartments',function(obj) {
         context.setState({ departments:obj})
       });
-      Liferay.Service('/eternus-portlet.designation/GetDesignations', function(obj) {
+      Liferay.Service('/eternus.designation/GetDesignations', function(obj) {
         context.setState({ designations:obj})
       });
     }
     componentWillReceiveProps(props){
      var context=this;
      if(props.params){
-        Liferay.Service('/eternus-portlet.employee/GetProfile',{ employeeId: props.params}, function(obj) {
+        Liferay.Service('/eternus.employee/GetProfile',{ employeeId: props.params}, function(obj) {
              context.setState({ formData:obj})
         });
       }

@@ -11,14 +11,14 @@ class ProfileListComponent extends React.Component {
 
   componentDidMount() {
      var context = this
-      Liferay.Service('/eternus-portlet.employee/GetProfiles', function(obj) {
+      Liferay.Service('/eternus.employee/GetProfiles', function(obj) {
         console.log(obj);
         context.setState({ profileList:obj})
       });
   }
   onDelete(id){
     var context = this
-    Liferay.Service('/eternus-portlet.employee/deleteProfile', { Id: id }, function(reponse) {
+    Liferay.Service('/eternus.employee/deleteProfile', { Id: id }, function(reponse) {
         if(reponse){
            let profileList=context.state.profileList;
            let index= profileList.findIndex(function(item,index){ if(item.EmpId===id){return index}})
