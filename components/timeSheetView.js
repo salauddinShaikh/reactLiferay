@@ -7,7 +7,17 @@ class TimeSheetView extends React.Component {
             optionsTimeSheet:{}
         };
     }
+
     componentDidMount() {
+        var context = this;
+        Liferay.Service('/eternus.timesheet/MyTimesheetData', function (data) {
+                context.setState({ attendance: data });
+                context.getChart(data);
+            }
+        );
+    }
+
+    getChart(data){
         this.setState({
             optionsTimeSheet: {
                 chart: {
@@ -36,28 +46,7 @@ class TimeSheetView extends React.Component {
                 series: [{
                     name: 'Time',
                     colorByPoint: true,
-                    data: [{
-                           name: 'Approved',
-                           y: 22,
-                        },
-                        {
-                            name: 'Pending',
-                            y: 9
-                        },
-                        {
-                            name: 'Submitted',
-                            y: 5
-                        },
-                        {
-                            name: 'Not-Submitted',
-                            y: 7
-                        },   {
-                            name: 'Partially-Approved',
-                            y: 3
-                        },  {
-                            name: 'Rejected',
-                            y: 1
-                        }]
+                    data: data
                 }]
             }
         })

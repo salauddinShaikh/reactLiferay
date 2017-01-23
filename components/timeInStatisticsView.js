@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+//import React, {Component} from 'react';
 import Chart from './chart';
 class InTimeStatisticsView extends React.Component {
     constructor(props) {

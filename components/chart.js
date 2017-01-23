@@ -1,4 +1,4 @@
- import React from 'react';
+ //import React from 'react';
 // import Highcharts from 'highcharts';
 
 // Apply the theme

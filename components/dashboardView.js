@@ -8,7 +8,21 @@ class DashboardView extends React.Component {
         };
     }
     componentDidMount() {
-        this.setState({
+        var context = this;
+        Liferay.Service(
+            '/eternus.attendance/GetByEmployeeIdAttendanceId',
+            {
+                employeeId: 1,
+                attendanceId: 1
+            },
+            function (data) {
+                console.log('get-attendance : ', data);
+                context.getChart(data);
+            }
+        );
+    }
+    getChart(data){
+         this.setState({
             optionsPieSimple: {
                 chart: {
                     plotBackgroundColor: null,
@@ -41,10 +55,10 @@ class DashboardView extends React.Component {
                     colorByPoint: true,
                     data: [{
                         name: 'Working',
-                        y: 8,
+                        y: data.WorkingTime,
                     }, {
                             name: 'Break',
-                            y: 2,
+                            y: data.BreakTime,
                             sliced: true,
                             selected: true
                         }]

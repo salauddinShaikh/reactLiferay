@@ -8,6 +8,15 @@ class TeamTimeSheetView extends React.Component {
         };
     }
     componentDidMount() {
+        var context = this;
+        Liferay.Service('/eternus.timesheet/TeamTimesheetData', function (data) {
+                context.setState({ attendance: data });
+                context.getChart(data);
+            }
+        );
+    }
+
+    getChart(data){
         this.setState({
             optionsTeamTimeSheet: {
                 chart: {
@@ -36,20 +45,7 @@ class TeamTimeSheetView extends React.Component {
                 series: [{
                     name: 'Time',
                     colorByPoint: true,
-                    data: [{
-                           name: 'For Approval',
-                           y: 7,
-                        },
-                        {
-                            name: 'Approved',
-                            y: 6
-                        },{
-                            name: 'Partially-Approved',
-                            y: 3
-                        },  {
-                            name: 'Rejected',
-                            y: 1
-                        }]
+                    data: data
                 }]
             }
         })
