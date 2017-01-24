@@ -1,8 +1,15 @@
 //import React from 'react';
-import DashboardView from './dashboardView';
+//import DashboardView from './dashboardView';
 import InTimeStatisticsView from './timeInStatisticsView';
 import TimeSheetView from './timeSheetView';
 import TeamTimeSheetView from './teamTimeSheet';
+import ManagerTeamTimeSheetView from './managerTeamTimeSheet';
+import MyLeaveChart from './myLeaveChart';
+import ManagerLeaveChart from './managerLeaveChart';
+import AdminLeaveChart from './adminLeaveChart';
+import MyAttendanceChart from './myAttendance';
+import AdminAttendanceChart from './adminAttendance';
+import ManagerAttendanceChart from './managerAttendance';
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -18,10 +25,10 @@ class DashboardContainer extends React.Component {
 
   render() {
     return (
-      <div>
+        <div>
         <div className="row">
           <div className="col-md-6">   
-             <DashboardView /> 
+             <MyAttendanceChart /> 
           </div>
           <div className="col-md-6">   
             <TimeSheetView /> 
@@ -33,6 +40,31 @@ class DashboardContainer extends React.Component {
           </div>
           <div className="col-md-6">   
              <TeamTimeSheetView /> 
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">   
+             <ManagerTeamTimeSheetView /> 
+          </div>
+          <div className="col-md-6">   
+             <MyLeaveChart /> 
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">   
+             <ManagerLeaveChart /> 
+          </div>
+	        <div className="col-md-6">   
+             <AdminLeaveChart /> 
+          </div>
+        </div>
+        <div className="row">
+         
+	        <div className="col-md-6">   
+             <AdminAttendanceChart /> 
+          </div>
+           <div className="col-md-6">   
+             <ManagerAttendanceChart /> 
           </div>
         </div>
       </div>
