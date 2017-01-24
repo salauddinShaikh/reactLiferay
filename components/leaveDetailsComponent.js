@@ -29,7 +29,7 @@ class LeaveDetailsComponent extends React.Component {
     getLeaveDetailsAPI() {
         var context = this;
         Liferay.Service(
-            '/eternus-portlet.leave/GetLeaveByEmployeeIdLeaveId',
+            '/eternus.leave/GetLeaveByEmployeeIdLeaveId',
             {
                 employeeId: Liferay.ThemeDisplay.getUserId(),
                 leaveId: context.props.ID

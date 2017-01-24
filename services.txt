@@ -1,0 +1,209 @@
+=> Get Leaves by UserID
+Service Call =>
+Liferay.Service(
+  '/eternus.leave/GetLeaves',
+  {
+    employeeId: 20164
+  },
+  function(obj) {
+    console.log(obj);
+  }
+);
+
+Response =>
+[
+  {
+    "StartDate": "2016-10-10",
+    "Status": "Approved",
+    "LeaveId": 1,
+    "NoOfDays": "4",
+    "EndDate": "2016-10-10",
+    "Reason": "Not Well"
+  },
+  {
+    "StartDate": "2016-10-10",
+    "Status": "Approved",
+    "LeaveId": 1,
+    "NoOfDays": "4",
+    "EndDate": "2016-10-10",
+    "Reason": "Not Well"
+  }
+]
+---------------------------------
+=>Get LeaveDetails by UserId, LeaveId
+Service Call =>
+Liferay.Service(
+  '/eternus.leave/GetLeaveByEmployeeIdLeaveId',
+  {
+    employeeId: 20164,
+    leaveId: 1
+  },
+  function(obj) {
+    console.log(obj);
+  }
+);
+
+Response=>
+{
+  "Approvers": [],
+  "Leave": {
+    "StartDate": "2016-10-10",
+    "Status": {
+      "Text": "Approved",
+      "Id": 1
+    },
+    "LeaveId": 1,
+    "NoOfDays": "4",
+    "TypeOfLeave": {
+      "Text": "Leave",
+      "Id": 1
+    },
+    "EndDate": "2016-10-10",
+    "Reason": "Not Well"
+  }
+}
+---------------------------------
+=>Get Leaves by employeeId, StartDate, EndDate
+Service Call =>
+
+Liferay.Service(
+  '/eternus.leave/GetLeaves',
+  {
+    employeeId: 20164,
+    StartDate: 2016-10-10,
+    EndDate: 2016-10-10
+  },
+  function(obj) {
+    console.log(obj);
+  }
+);
+
+Response=>
+
+[
+  {
+    "StartDate": "2016-10-10",
+    "Status": "Approved",
+    "LeaveId": 1,
+    "NoOfDays": "4",
+    "EndDate": "2016-10-10",
+    "Reason": "Not Well"
+  },
+  {
+    "StartDate": "2016-10-10",
+    "Status": "Approved",
+    "LeaveId": 1,
+    "NoOfDays": "4",
+    "EndDate": "2016-10-10",
+    "Reason": "Not Well"
+  }
+]
+---------------------------------
+=>Get Leaves by employeeId, StartDate
+Service Call =>
+
+Liferay.Service(
+  '/eternus.leave/GetLeaves',
+  {
+    employeeId: 20164,
+    StartDate: 2016-10-10
+  },
+  function(obj) {
+    console.log(obj);
+  }
+);
+
+Response=>
+
+[
+  {
+    "StartDate": "2016-10-10",
+    "Status": "Approved",
+    "LeaveId": 1,
+    "NoOfDays": "4",
+    "EndDate": "2016-10-10",
+    "Reason": "Not Well"
+  },
+  {
+    "StartDate": "2016-10-10",
+    "Status": "Approved",
+    "LeaveId": 1,
+    "NoOfDays": "4",
+    "EndDate": "2016-10-10",
+    "Reason": "Not Well"
+  }
+]
+---------------------------------
+=>Get LeaveCount by employeeId
+Service Call =>
+
+Liferay.Service(
+  '/eternus.leave/GetLeaveCount',
+  {
+    employeeId: 20164
+  },
+  function(obj) {
+    console.log(obj);
+  }
+);
+
+Response=>
+
+{
+  "LeavesBalance": 4,
+  "LeavesTaken": 5
+}
+---------------------------------
+=>Get LeaveType
+Service Call =>
+
+Liferay.Service(
+  '/eternus.leavetype/GetLeaveTypes',
+  function(obj) {
+    console.log(obj);
+  }
+);
+
+Response=>
+
+[
+  {
+    "Value": 1,
+    "Text": "Leave"
+  },
+  {
+    "Value": 3,
+    "Text": "LWP"
+  }
+]
+
+---------------------------------
+=>Post ApplyLeave
+Service Call =>
+
+Liferay.Service(
+  '/eternus.leave/ApplyLeave',
+  {
+    StartDate: 2016-10-10,
+    EndDate: '2016-10-10',
+    Reason: 'huha',
+    LeaveDataType: 'Leave',
+    StatusData: 'Pending',
+    NoOfDays: 8
+  },
+  function(obj) {
+    console.log(obj);
+  }
+);
+
+Response=>
+
+{
+  "StartDate": "Mon Oct 10 00:00:00 GMT 2016",
+  "Status": "Pending",
+  "LeaveId": 1,
+  "NoOfDays": 8,
+  "TypeOfLeave": "Leave",
+  "EndDate": "2016-10-10",
+  "Reason": "huha"
+}

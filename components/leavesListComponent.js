@@ -40,7 +40,7 @@ class LeavesListComponent extends React.Component {
     getFilteredLeavesAPI() {
         var context = this;
         Liferay.Service(
-            '/eternus-portlet.leave/GetLeaves',
+            '/eternus.leave/GetLeaves',
             {
                 employeeId: Liferay.ThemeDisplay.getUserId(),
                 StartDate: context.state.filterData.StartDate,
@@ -59,7 +59,7 @@ class LeavesListComponent extends React.Component {
     getLeaveCountAPI() {
         var context = this;
         Liferay.Service(
-            '/eternus-portlet.leave/GetLeaveCount',
+            '/eternus.leave/GetLeaveCount',
             {
                 employeeId: Liferay.ThemeDisplay.getUserId()
             },
@@ -76,7 +76,7 @@ class LeavesListComponent extends React.Component {
     getLeavesAPI() {
         var context = this;
         Liferay.Service(
-            '/eternus-portlet.leave/GetLeaves',
+            '/eternus.leave/GetLeaves',
             {
                 employeeId: Liferay.ThemeDisplay.getUserId()
             },

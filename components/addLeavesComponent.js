@@ -48,7 +48,7 @@ class AddLeavesComponent extends React.Component {
     getLeaveTypeAPI() {
         var context = this;
         Liferay.Service(
-            '/eternus-portlet.leavetype/GetLeaveTypes',
+            '/eternus.leavetype/GetLeaveTypes',
             function (obj) {
                 console.log('getLeaveTypeAPI',obj);
                 context.setState({ MstrLeaveType : obj});
@@ -62,7 +62,7 @@ class AddLeavesComponent extends React.Component {
     getLeaveDetailsAPI() {
         var context = this;
         Liferay.Service(
-            '/eternus-portlet.leave/GetLeaveByEmployeeIdLeaveId',
+            '/eternus.leave/GetLeaveByEmployeeIdLeaveId',
             {
                 employeeId: Liferay.ThemeDisplay.getUserId(),
                 leaveId: context.props.ID
